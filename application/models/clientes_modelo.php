@@ -17,17 +17,25 @@ class Clientes_modelo extends CI_Model {
      *  Función para insertar clientes 
      * @param type $data array de datos
      */    
-    function Insertar_cliente ($data){
+    function insertar_cliente ($data){
         
        $this->db->insert('cliente',$data);
             
     }
     
+         /**
+     * Eliminar el cliente con id=$id
+     * @param type $id
+     */
+    function eliminar_cliente($id){
+        $this->db->where('id', $id);
+        $this->db->delete('cliente');
+    
     /**
-     * Funcion para comprobar si el usuario existe
+     * Comprobar si el usuario existe
      */
     
-    function Existe_Usuario($data){
+    function existe_usuario($data){
         
        $this->db->where('id',$data);
        $consulta= $this->db->get('cliente');
@@ -41,6 +49,69 @@ class Clientes_modelo extends CI_Model {
        }      
         
     }
+    
+        /**
+     * Busca clientes por diversos criterios
+     * recogidos en $datos
+     * @param type $datos
+     * @return type
+     */
+    function buscar_clientes($datos){
+        $this->db->where($datos);
+        $query = $this->db->get('cliente');
+        return $query->result_array();
+    }
+    
+     /**
+     * Obtener los clientes registrados en la base de datos
+     * @return array
+     */
+    function lista_clientes(){
+        $query = $this->db->get('cliente');
+        
+        return $query->result_array();
+    }
+    
+        
+    /**
+     * Obtiene los clientes activos
+     * @return type
+     */
+    function clientes_activos(){
+        $this->db->where('activo', 'a');
+        $query = $this->db->get('cliente');
+        
+        return $query->result_array();
+    }
+    
+     /**
+     * Dar de baja el cliente con id=$id
+     * pero no lo elimina
+     * @param type $id
+     */
+    function baja_cliente($id){
+        $datos = array(
+            'activo' => 'b'
+        );
+        $this->db->where('id', $id);
+        $this->db->update('cliente', $datos);
+    }
+    
+
+    }
+     /**
+     * Edita los datos del cliente con id=$id
+     * actualizando sus datos con $datos
+     * @param type $id
+     * @param type $datos
+     */
+    function editar_cliente($id, $datos){
+        $this->db->where('id', $id);
+        $this->db->update('cliente', $datos);
+    }
+    
+
+    
     
     
     
