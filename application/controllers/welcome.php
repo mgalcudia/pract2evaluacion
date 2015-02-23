@@ -19,7 +19,11 @@ class Welcome extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->load->view('welcome_message');
+            if ($this->clientes_modelo->Existe_Usuario(12)) {
+                echo 'ok';
+            } else {
+                echo 'no ok';
+            }
 	}
 }
 

@@ -14,7 +14,18 @@
 | path to your installation.
 |
 */
-$config['base_url']	= '';
+Define('Modo_local', true);
+if('Modo_local')
+{
+    $config['base_url']= 'http://localhost/pract2evaluacion/';
+
+}
+else{
+
+$config['base_url']= 'http://iessansebastian.com/alumnos/2daw1415/manuel';
+}
+
+//$config['base_url']	= '';
 
 /*
 |--------------------------------------------------------------------------
