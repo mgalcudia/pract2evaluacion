@@ -50,9 +50,23 @@ $active_record = TRUE;
 
 
 $db['default']['hostname'] = 'localhost';
+/*
 $db['default']['username'] = 'root';
 $db['default']['password'] = '';
 $db['default']['database'] = 'practica2';
+ 
+ */
+if('Modo_local'){
+$db['default']['username'] = 'root';
+$db['default']['password'] = '';
+$db['default']['database'] = 'practica2';
+}
+else 
+{
+$db['default']['username'] = '2daw1415manuel';
+$db['default']['password'] = 'garaman!29';
+$db['default']['database'] ='2daw1415_manuel01';
+}
 $db['default']['dbdriver'] = 'mysqli';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;

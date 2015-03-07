@@ -27,9 +27,10 @@ class Clientes_modelo extends CI_Model {
      * Eliminar el cliente con id=$id
      * @param type $id
      */
-    function eliminar_cliente($id){
+    function borra_client($id){
         $this->db->where('id', $id);
         $this->db->delete('cliente');
+    }
     
     /**
      * Comprobar si el usuario existe
@@ -98,7 +99,7 @@ class Clientes_modelo extends CI_Model {
     }
     
 
-    }
+  
      /**
      * Edita los datos del cliente con id=$id
      * actualizando sus datos con $datos
