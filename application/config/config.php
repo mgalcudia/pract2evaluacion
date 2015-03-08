@@ -38,7 +38,7 @@ $config['base_url']= 'http://iessansebastian.com/alumnos/2daw1415/manuel';
 |
 */
 $config['index_page'] = 'index.php';
-
+    //$config['index_page'] = 'inicio.php';
 /*
 |--------------------------------------------------------------------------
 | URI PROTOCOL
@@ -80,8 +80,10 @@ $config['url_suffix'] = '';
 | than english.
 |
 */
-$config['language']	= 'english';
+//$config['language']	= 'english';
+// 
 
+$config['language']	= 'spanish';
 /*
 |--------------------------------------------------------------------------
 | Default Character Set

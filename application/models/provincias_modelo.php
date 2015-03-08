@@ -31,13 +31,29 @@ class Provincias_modelo extends CI_Model {
      * 
      * @return array con las provincias y sus Id
      */
-    public function Listar_Provincias(){
+    public function Listar_ProvinciasTodo(){
         
        $resultado= $this->db->get("provincia");
         
         return $resultado-> result_array();
         
     }
-            
+      
+        public function Listar_Provincias(){
+        
+      $resultado = "select * from provincia";
+		$resultado = $this->db->query($resultado);
+	
+		if($resultado->num_rows()>0)
+		{
+			foreach ($resultado->result() as $fila)
+			{
+				$provincias[$fila->id] = $fila->nombre;
+				$resultado->free_result();
+			}
+			return $provincias;
+		}
+        
+    }
 
 }

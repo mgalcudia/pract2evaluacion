@@ -1,46 +1,29 @@
-
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<title>Ejercicio nº1</title>
+	<meta charset="utf-8">
+	
+	<title>TiendaOnline</title>
 </head>
 <body>
+<div class="contendor">
+    <div class="encabezado">
+	<header>
+		<?=$encabezado?>
+	</header>
+	</
+    </div>
+    <div class="cuerpo">
+		<aside><?=$menu_izq?></aside>
 
-<p>Provincia id=1</p>
-<?= $provincia;?>
-
-<p>Listado de provincias</p>
-<pre>
-
-<?php 
-
- foreach ($provincias as $clave =>$valor){
-     
-     
-     echo "id: ";
-     echo $valor['id'];
-     echo "<br/>";
-     echo "nombre: ";
-     echo $valor['nombre'];
-     
-     //print_r(print_r($valor));
-    /* foreach ($valor as $nombre){
-         
-         
-         echo $nombre['id'];
-         echo $nombre['nombre'];
-         echo "|";
-         
-     }*/
-     
-     echo "<br/>";
-     
- }
-
-?>
-
-</pre>
-
+		<?= $cuerpo?>
+    </div>
+    <div class= "pie">
+	
+	
+		<footer><?=$pie?></footer>
+    </div>
+	
+</div>
 </body>
 </html>
