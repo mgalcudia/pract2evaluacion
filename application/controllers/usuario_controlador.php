@@ -113,31 +113,76 @@ class usuario_controlador extends CI_Controller {
         }
         return TRUE;
     }
-
+/**
+ *  funcion para loguear usuario
+ */
     function loguearse() {
 
         $this->form_validation->set_rules('usuario', 'usuario', 'trim|required|min_length[3]|max_length[25]|xss_clean');
         $this->form_validation->set_rules('password', 'password', 'trim|required|md5');
-        
-        if($this->form_validation->run()==FALSE){
+
+        if ($this->form_validation->run() == FALSE) {
             $menuizq = $this->load->view('menuinzquierdo');
-            $formulario = $this->load->view('login','',TRUE);
+            $formulario = $this->load->view('login', '', TRUE);
             $this->load->view('plantilla', array(
                 'encabezado' => '<p>encabezado</p>',
                 'menu_izq' => $menuizq,
                 'cuerpo' => $formulario,
                 'pie' => '<p>pie</p>'
             ));
-        }else{
-            
-            $usuario= $this->input->post('usuario');
-            $contraseña= $this->post('password');
-            
-            
-            
-            
+        } else {
+
+            $usuario = $this->input->post('usuario');
+            $password = $this->input->post('password');
+
+            if ($this->clientes_modelo->loginok($usuario, $password)) {
+
+                $sess_array = array('usuario' => $this->input->post('usuario'));
+                
+                $this->session->set_userdata('valido', $sess_array);
+                
+                $result = $this->clientes_modelo->infousuario($sess_array);
+                var_dump($result);
+                if ($result != false) {
+                    $data = array(
+                        'nombre' => $result->nombre,
+                        'usuario' => $result->usuario,
+                        'email' => $result->email,
+                        'password' => $result->password
+                    );
+                //TODO: Falta enviar a alguna vista 
+                } else {
+
+                    $data = array(
+                        'mensaje_error' => 'usuario incorrecto'
+                    );
+                    
+                }
+                $this->load->view('login', $data, TRUE);
+            }
         }
-        
     }
 
+    /**
+	 * Cerrar sesión usuario
+	 */
+	public function logout() {
+	
+		//Borra los datos de la sesion
+		$sess_array = array (
+				'usuario' => ''
+		);
+		
+		$this->session->unset_userdata('valido', $sess_array);
+		
+		$data['logout'] = 'Sesión cerrada.';
+		
+		//redirect('tienda/destacados');
+		$this->$this->load->view('login', $data, TRUE);
+	}
+	
+    
+    
+    
+    
 }

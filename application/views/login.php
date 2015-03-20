@@ -1,8 +1,31 @@
-<?php
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
+<form method="post" action="<?=base_url('index.php/usuario_controlador/loguearse')?>">
+   <?php
+    //erro
+    if(isset($mensaje_error)){
+        echo $mensaje_error;
+    }
+    if (isset($logout)){
+        echo $logout;       
+    }
+        
+   ?> 
+    <label> Loguear usuario</label>
+    
+    <p>
+        Usuario:
+        <input type="text" name="usuario" value="<?= set_value('usuario'); ?>">
+        <?= form_error('usuario'); ?>
+    </p>
+    <p>
+        Contraseña:
+        <input type="password" name="password" value="<?= set_value('password') ?>">
+        <?= form_error('password'); ?>
+        <input type="checkbox" name="recordar"> Recordarme
+    </p>
+    <p>
+        <a href=<?=site_url("usuario_controlador/registrousuario");?>>¿Registrarse?</a>
+        
+    </p>
+    <button type="submit">Entrar</button>
+</form>

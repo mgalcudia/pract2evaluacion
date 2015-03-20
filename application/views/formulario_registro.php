@@ -19,7 +19,7 @@
                         <label>DNI</label>
 		
 			<input type="text" name="dni" value="<?php echo set_value('dni'); ?>" />
-			<?php echo form_error('dni'); ?>
+			<?php echo form_error('dni');?>
 
 </p>
 <p>

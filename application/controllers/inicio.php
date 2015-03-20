@@ -28,7 +28,7 @@ class Inicio extends CI_Controller{
       // $this->load->view('formulario_registro',$datos);
        // echo base_url("index.php/usuario_controlador/registrousuario");
        // echo site_url("index.php/usuario_controlador/registrousuario");
-       $parametros= ["enlace"=>anchor('usuario_controlador/registrousuario','Registrar usuario'),
+      $parametros= ["enlace"=>anchor('usuario_controlador/loguearse','Registrar usuario'),
                         ];
         $this->load->view("vista", $parametros);
       

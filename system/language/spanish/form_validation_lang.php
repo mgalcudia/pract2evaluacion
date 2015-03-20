@@ -24,6 +24,6 @@ $lang['less_than']			= "El campo %s debe contener un número menor que %s.";
 $lang['greater_than']		= "El campo %s debe contener un número mayor que %s.";
 /* Added after 2.0.2 */
 $lang['is_unique'] 			= "El campo %s debe contener un valor único.";
-
+$lang['validarDNI']             ="El campo %s introducido no corresponde con los caracteres correctos";
 /* End of file form_validation_lang.php */
 /* Location: ./system/language/spanish/form_validation_lang.php */
