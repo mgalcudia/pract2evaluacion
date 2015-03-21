@@ -61,14 +61,18 @@ class usuario_controlador extends CI_Controller {
         if ($this->form_validation->run() == FALSE) {
             /* $this->plantilla(
               $this->load->view('registro_form', array('provincias' => $provincias), TRUE)); */
-            $menuizq = $this->load->view('menuinzquierdo');
-            $formulario = $this->load->view('formulario_registro', $data, TRUE);
-            $this->load->view('plantilla', array(
-                'encabezado' => '<p>Hola</p>',
-                'menu_izq' => $menuizq,
-                'cuerpo' => $formulario,
-                'pie' => ''
-            ));
+            //$menuizq = $this->load->view('menuinzquierdo');
+            
+                  $datos['encabezado'] = $this->load->view("encabezado", array(
+        'titulo' => 'Tienda online'
+        ), TRUE);
+
+      $datos['pie'] = $this->load->view("pie", 0, TRUE);
+      $datos['cuerpo'] = $this->load->view('formulario_registro', $data, TRUE);
+            
+            $this->load->view('plantilla', $datos);
+            
+            
         } else {
             $datos['nombre'] = $this->input->post('nombre');
             $datos['apellidos'] = $this->input->post('apellidos');
@@ -122,14 +126,18 @@ class usuario_controlador extends CI_Controller {
         $this->form_validation->set_rules('password', 'password', 'trim|required|md5');
 
         if ($this->form_validation->run() == FALSE) {
-            $menuizq = $this->load->view('menuinzquierdo');
-            $formulario = $this->load->view('login', '', TRUE);
-            $this->load->view('plantilla', array(
-                'encabezado' => '<p>encabezado</p>',
-                'menu_izq' => $menuizq,
-                'cuerpo' => $formulario,
-                'pie' => '<p>pie</p>'
-            ));
+            
+            
+             $datos['encabezado'] = $this->load->view("encabezado", array(
+        'titulo' => 'Tienda online'
+        ), TRUE);
+
+      $datos['pie'] = $this->load->view("pie", 0, TRUE);
+      $datos['cuerpo'] = $this->load->view('login', '', TRUE);
+            
+            $this->load->view('plantilla', $datos);            
+ 
+           
         } else {
 
             $usuario = $this->input->post('usuario');

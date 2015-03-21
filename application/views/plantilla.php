@@ -2,28 +2,16 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	
 	<title>TiendaOnline</title>
+	<link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/estilos.css'); ?>">
 </head>
 <body>
-<div class="contendor">
-    <div class="encabezado">
-	<header>
+	<div class="contenedor">
 		<?=$encabezado?>
-	</header>
-	</
-    </div>
-    <div class="cuerpo">
-		<aside><?=$menu_izq?></aside>
-
-		<?= $cuerpo?>
-    </div>
-    <div class= "pie">
-	
-	
-		<footer><?=$pie?></footer>
-    </div>
-	
-</div>
+		<div class="cuerpo">
+			<?=$cuerpo?>
+		</div>
+		<?=$pie?>
+	</div>
 </body>
 </html>

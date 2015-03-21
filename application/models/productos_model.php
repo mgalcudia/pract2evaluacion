@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Productos_model extends CI_Model {
+class productos_model extends CI_Model {
     
     function __construct() {
         parent::__construct();
@@ -68,6 +68,18 @@ class Productos_model extends CI_Model {
         );
         $this->db->where('id', $id);
         $this->db->update('producto', $datos);
+    }
+    
+    /**
+     * lista los productos destacados
+     */
+    function listar_destacados(){
+        
+        $this->db->from('producto');
+        $this->db->where('destacado',"1");
+        $resultado= $this->db->get();
+        return $resultado->result_array(); 
+        
     }
     
 }

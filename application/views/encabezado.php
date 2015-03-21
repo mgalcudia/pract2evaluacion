@@ -1,8 +1,22 @@
-<?php
+<div class="encabezado">
+	<div class="logo">
+		<a href="<?=base_url()?>">Tienda Virtual</a>
+	</div>
+	<div class="opciones">
+		<ul>
+			<li>
+				<a href="<?=site_url("productos/pro_destacados");?>">Carrito</a>
+			</li>
+			
+			<li>
+				<a href="<?=site_url("usuario_controlador/loguearse");?>">Login</a>
+			</li>
+			
+			<li>
+				<a href="<?=site_url("usuario_controlador/registrousuario")?>">Registro</a>
+			</li>
+		</ul>
+	</div>
+</div>
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 

@@ -15,23 +15,13 @@ class Inicio extends CI_Controller{
     }
     
     function index(){
-          /*  $data['provincia']= $this->provincias_modelo->Nombre_Provincia('01');
-       // echo $this->provincias_modelo->Nombre_Provincia('01');
-          // $this->load->view('plantilla',$data);
-           
-           $data['provincias']= $this->provincias_modelo->Listar_Provincias();
-           
-           $this->load->view('plantilla',$data);*/
-        //$this->load->view('welcome_message');
-        
-       // $datos['provincias']=$this->provincias_modelo->Listar_Provincias();
-      // $this->load->view('formulario_registro',$datos);
-       // echo base_url("index.php/usuario_controlador/registrousuario");
-       // echo site_url("index.php/usuario_controlador/registrousuario");
-      $parametros= ["enlace"=>anchor('usuario_controlador/loguearse','Registrar usuario'),
-                        ];
-        $this->load->view("vista", $parametros);
-      
+      $datos['encabezado'] = $this->load->view("encabezado", array(
+        'titulo' => 'Tienda online'
+        ), TRUE);
+
+      $datos['pie'] = $this->load->view("pie", 0, TRUE);
+      $datos['cuerpo'] = $this->load->view("lorem", 0, TRUE);
+      $this->load->view('plantilla', $datos);
     }
     
     
