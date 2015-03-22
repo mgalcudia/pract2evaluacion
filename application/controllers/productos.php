@@ -11,17 +11,18 @@ class productos extends CI_Controller{
    
     function pro_destacados($inicio=0){
         
-         $total_pagina=3;
+         $total_pagina=6;
          $total_destacados= $this->productos_model->total_destacados();
          
+         //$config['uri_segment'] = 7;
          $config['base_url']= site_url('productos/pro_destacados');
          $config['total_rows']= $total_destacados;
          $config['per_page'] = $total_pagina;
          $config['num_links'] = 2;
          $config['first_link'] = 'Primero';
          $config['last_link'] = 'Último';
-        $config['full_tag_open'] = '<div id="paginacion">';//el div que debemos maquetar
-        $config['full_tag_close'] = '</div>';//el cierre del div de la paginación
+         $config['full_tag_open'] = '<div id="paginacion">';//el div que debemos maquetar
+         $config['full_tag_close'] = '</div>';//el cierre del div de la paginación
         
          $this->pagination->initialize($config);
 
