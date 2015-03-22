@@ -3,7 +3,16 @@
 		<a href="<?=base_url()?>">Tienda Virtual</a>
 	</div>
     <div class="categorias">
+        <ul>
+    <?php
+        foreach ($categoria as $clave => $valor){
+            
+            echo "<li><a href=''>".$valor['nombre']."</a></li>";
+            
+        }
     
+    ?>
+        </ul>
     </div>
 	<div class="opciones">
 		<ul>

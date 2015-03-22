@@ -23,8 +23,7 @@ class Inicio extends CI_Controller{
       //$datos['cuerpo'] = $this->load->view("lorem", 0, TRUE);      
       $this->load->view('plantilla', $datos);
      */
-         $categ = $this->productos_model->todas_categorias();
-         //var_dump($categ);
+
          $total_pagina=6;
          $total_destacados= $this->productos_model->total_destacados();
          
@@ -47,15 +46,15 @@ class Inicio extends CI_Controller{
         
         $datas['productos']= $productos;
         
+         $categ['categoria'] = $this->categorias_modelo->todas_categorias();
+         var_dump($categ);        
         
        /*  
         var_dump($categorias);
         
         */
         //var_dump($productos);
-        $datos['encabezado'] = $this->load->view("encabezado", array(
-        'titulo' => 'Tienda online'
-        ), TRUE);
+        $datos['encabezado'] = $this->load->view("encabezado",$categ , TRUE);
 
       $datos['pie'] = $this->load->view("pie", 0, TRUE);
        
