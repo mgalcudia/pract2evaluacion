@@ -3,9 +3,12 @@
         <?= $titulo ?>
     </div>
     <div class="prod_destacados">
-       
+        <ul>
+          <?=$paginador?>  
+        </ul>
         <ul>
             <?php
+           
              echo "<hr> <br/>";
             foreach ($productos as $clave => $valor) {
                //var_dump($valor);
@@ -16,9 +19,11 @@
                echo "descripcion: ".$valor["descripcion"];                
                echo "<hr> <br/>";            }
             ?>
-             <?=$paginador?>
+             
         </ul>
-
+        <ul>
+          <?=$paginador?>  
+        </ul>
     </div>
 
 </div>
