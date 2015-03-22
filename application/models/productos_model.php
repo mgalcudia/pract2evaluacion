@@ -73,15 +73,30 @@ class productos_model extends CI_Model {
     /**
      * lista los productos destacados
      */
-    function listar_destacados(){
-        
+    function listar_destacados($inicio=0, $limit=0){
+         $this->db->limit($inicio, $limit);
         $this->db->from('producto');
-        $this->db->where('destacado',"1");
+         $where = '(fec_inicio_desta < '.date("Y-m-d").' AND fec_fin_desta > '.date("Y-m-d").') OR ';
+        $where.= '(fec_inicio_desta is null AND fec_fin_desta is null AND destacado like "1")';
+        $this->db->where($where);
         $resultado= $this->db->get();
         return $resultado->result_array(); 
         
     }
     
+    
+    function total_destacados(){
+        
+        $this->db->from('producto');
+        $where = '(fec_inicio_desta < '.date("Y-m-d").' AND fec_fin_desta > '.date("Y-m-d").') OR ';
+        $where.= '(fec_inicio_desta is null AND fec_fin_desta is null AND destacado like "1")';
+        $this->db->where($where);
+
+        $resultado = $this->db->get();        
+        return $resultado->num_rows();      
+        
+        
+    }
 }
 
 

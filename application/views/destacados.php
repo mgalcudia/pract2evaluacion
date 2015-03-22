@@ -3,7 +3,7 @@
         <?= $titulo ?>
     </div>
     <div class="prod_destacados">
-
+       
         <ul>
             <?php
              echo "<hr> <br/>";
@@ -12,13 +12,11 @@
                echo "<img src=".base_url().$valor['imagen'].">";
                echo $valor["nombre"];
                echo "precio: ".$valor["precioVenta"];
-               echo $valor["descuento"];
-                
-                echo "<hr> <br/>";
-
-            }
+               echo "descuento: ".$valor["descuento"];
+               echo "descripcion: ".$valor["descripcion"];                
+               echo "<hr> <br/>";            }
             ?>
-            
+             <?=$paginador?>
         </ul>
 
     </div>
