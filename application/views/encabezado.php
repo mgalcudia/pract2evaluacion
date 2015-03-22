@@ -2,6 +2,9 @@
 	<div class="logo">
 		<a href="<?=base_url()?>">Tienda Virtual</a>
 	</div>
+    <div class="categorias">
+    
+    </div>
 	<div class="opciones">
 		<ul>
 			<li>

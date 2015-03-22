@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Categorias_model extends CI_Model {
+class categorias_modelo extends CI_Model {
     function __construct() {
         parent::__construct();
     }
@@ -25,12 +25,13 @@ class Categorias_model extends CI_Model {
     
     
     /**
-     * obtener todos los productos de la tienda
+     * obtener todos las categorias de la tienda
      * @return type
      */
     function todas_categorias(){
-        $query = $this->db->get('categoria');
-        return $query->result_array();
+        
+       $consulta = $this->db->get('categoria');
+        return $consulta->result_array();
     }
     
     /**
