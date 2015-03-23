@@ -52,13 +52,32 @@ class productos extends CI_Controller{
         
     }
     
-    function producto_categoria($categoria){
+    function producto_categoria($categoria,$inicio=0){
+        
+                /*
+         * paginador
+         */
+         $total_pagina=2;
+         $total_productos = $this->productos_model->total_product_categoria($categoria);        
+         //$config['uri_segment'] = 7;
+         $config['base_url']= site_url('productos/producto_categoria');
+         $config['total_rows']= $total_productos;
+         $config['per_page'] = $total_pagina;
+         $config['num_links'] = 2;
+         $config['first_link'] = 'Primero';
+         $config['last_link'] = 'Último';
+         $config['full_tag_open'] = '<div id="paginacion">';//el div que debemos maquetar
+         $config['full_tag_close'] = '</div>';//el cierre del div de la paginación        
+         $this->pagination->initialize($config);
+         $datas['paginador']= $this->pagination->create_links();
+         /*
+          * fin paginador
+          */
         
         
         
+        $productos= $this->productos_model->buscar_productos($categoria,$inicio,$total_pagina);
         
-        
-        $productos= $this->productos_model->buscar_productos($categoria);
         $tittle= $this->categorias_modelo->nombre_categoria($categoria);
         $datas['titulo']= "<h1>".$tittle."</h1>";
        // var_dump($productos);

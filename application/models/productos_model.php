@@ -16,17 +16,45 @@ class productos_model extends CI_Model {
     }
         
     /**
-     * Busca productos por diversos criterios
+     * Busca productos por categorias
      * recogidos en $datos
      * @param type $datos
      * @return type
      */
-    function buscar_productos($datos){
+    function buscar_productos($datos,$inicio=0,$limit=0){
+        
+        $this->db->from('producto');
+        $this->db->limit($limit,$inicio);
+        $this->db->where('oculto',1);
         $this->db->where('categoria_id',$datos);
-        $query = $this->db->get('producto');
-        return $query->result_array();
+        $query = $this->db->get();       
+        return $query->result_array();         
+         
+        /*
+        $this->db->limit($limit,$inicio);
+
+        $this->db->from('producto');
+        $this->db->where(array('categoria_id' => $datos));
+
+        $resultado = $this->db->get();
+        var_dump($resultado);
+        return $resultado->result_array();*/
     }
     
+    /**
+     * total productos por categorias
+     * @return type
+     */
+    function total_product_categoria($datos){
+        
+        $this->db->from('producto');
+        $this->db->where('oculto',1);
+        $this->db->where('categoria_id',$datos);
+        $resultado = $this->db->get();        
+        return $resultado->num_rows();      
+        
+        
+    }
     
     /**
      * Vende una cantidad $cant de unidades 
@@ -74,9 +102,9 @@ class productos_model extends CI_Model {
      * lista los productos destacados
      */
     function listar_destacados($inicio=0, $limit=0){
-         $this->db->limit($limit,$inicio);
+        $this->db->limit($limit,$inicio);
         $this->db->from('producto');
-         $where = '(fec_inicio_desta < '.date("Y-m-d").' AND fec_fin_desta > '.date("Y-m-d").') OR ';
+        $where = '(fec_inicio_desta < '.date("Y-m-d").' AND fec_fin_desta > '.date("Y-m-d").') OR ';
         $where.= '(fec_inicio_desta is null AND fec_fin_desta is null AND destacado like "1")';
         $this->db->where($where);
         $resultado= $this->db->get();

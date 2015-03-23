@@ -2,8 +2,10 @@
     <div class="titulo_destacado">
         <?= $titulo ?>
     </div>
-    <div class="prod_destacados">
-       
+    <div class="prod_destacados">    
+        <ul>
+          <?=$paginador?>  
+        </ul>
         <ul>
             <?php
            
