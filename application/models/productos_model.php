@@ -22,7 +22,7 @@ class productos_model extends CI_Model {
      * @return type
      */
     function buscar_productos($datos){
-        $this->db->where($datos);
+        $this->db->where('categoria_id',$datos);
         $query = $this->db->get('producto');
         return $query->result_array();
     }

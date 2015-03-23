@@ -10,33 +10,7 @@ class usuario_controlador extends CI_Controller {
         $this->load->library('form_validation');
     }
 
-    /**
-     * Carga la plantilla html (encabezado, menu, cuerpo y pie).
-     * @param unknown $cuerpo
-     */
-    /*  protected function plantilla($cuerpo) {
-      if (isset($this->session->userdata['valido'])) {
-      $sesion = $this->session->userdata['valido'];
-
-      //Carga del encabezado
-      $encabezado = $this->load->view('header', $sesion, TRUE);
-      } else {
-      //Carga del encabezado
-      $encabezado = $this->load->view('header', '', TRUE);
-      }
-
-      $pie = $this->load->view('footer', '', TRUE);
-
-      //Creo una plantilla con los apartados a mostrar
-      $this->load->view('plantilla', array(
-      'encabezado' => $encabezado,
-      'menu_izq' => '',
-      'cuerpo' => $cuerpo,
-      'pie' => $pie
-      ));
-      }
-
-     */
+  
 
     function registrousuario() {
 
@@ -63,9 +37,12 @@ class usuario_controlador extends CI_Controller {
               $this->load->view('registro_form', array('provincias' => $provincias), TRUE)); */
             //$menuizq = $this->load->view('menuinzquierdo');
             
-                  $datos['encabezado'] = $this->load->view("encabezado", array(
+                 /* $datos['encabezado'] = $this->load->view("encabezado", array(
         'titulo' => 'Tienda online'
-        ), TRUE);
+        ), TRUE);*/
+                     $categ['categoria'] = $this->categorias_modelo->todas_categorias();
+  
+        $datos['encabezado'] = $this->load->view("encabezado",$categ , TRUE);
 
       $datos['pie'] = $this->load->view("pie", 0, TRUE);
       $datos['cuerpo'] = $this->load->view('formulario_registro', $data, TRUE);
@@ -127,10 +104,13 @@ class usuario_controlador extends CI_Controller {
 
         if ($this->form_validation->run() == FALSE) {
             
-            
+            /*
              $datos['encabezado'] = $this->load->view("encabezado", array(
         'titulo' => 'Tienda online'
-        ), TRUE);
+        ), TRUE);*/
+                     $categ['categoria'] = $this->categorias_modelo->todas_categorias();
+  
+        $datos['encabezado'] = $this->load->view("encabezado",$categ , TRUE);
 
       $datos['pie'] = $this->load->view("pie", 0, TRUE);
       $datos['cuerpo'] = $this->load->view('login', '', TRUE);

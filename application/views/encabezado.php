@@ -4,14 +4,14 @@
 	</div>
     <div class="categorias">
         <ul>
-    <?php
-        foreach ($categoria as $clave => $valor){
-            
-            echo "<li><a href=''>".$valor['nombre']."</a></li>";
-            
-        }
     
-    ?>
+     <?php   foreach ($categoria as $clave => $valor) : ?>
+            
+             <li><a href='<?=site_url("productos/producto_categoria/$valor[id]");?>'><?=$valor['nombre']?></a></li>
+            
+         <?php endforeach; ?>
+    
+   
         </ul>
     </div>
 	<div class="opciones">

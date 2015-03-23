@@ -5,7 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+//require(__DIR__.'/mifichero.php'),
 class Inicio extends CI_Controller{
     
     function __construct() {
@@ -38,22 +38,16 @@ class Inicio extends CI_Controller{
          $config['full_tag_close'] = '</div>';//el cierre del div de la paginación
         
          $this->pagination->initialize($config);
-
+        $datas['paginador']= $this->pagination->create_links();
          
         $productos= $this->productos_model->listar_destacados($inicio,$total_pagina);
-        $datas['paginador']= $this->pagination->create_links();
+        
         $datas['titulo']= "<h1>Productos Destacados</h1>";
         
         $datas['productos']= $productos;
         
          $categ['categoria'] = $this->categorias_modelo->todas_categorias();
-         var_dump($categ);        
-        
-       /*  
-        var_dump($categorias);
-        
-        */
-        //var_dump($productos);
+  
         $datos['encabezado'] = $this->load->view("encabezado",$categ , TRUE);
 
       $datos['pie'] = $this->load->view("pie", 0, TRUE);
