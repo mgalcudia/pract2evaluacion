@@ -3,15 +3,13 @@
 		<a href="<?=base_url()?>">Tienda Virtual</a>
 	</div>
     <div class="categorias">
+        
         <ul>
-    
-     <?php   foreach ($categoria as $clave => $valor) : ?>
+     <?php foreach ($categoria as $clave => $valor) : ?>
             
              <li><a href='<?=site_url("productos/producto_categoria/$valor[id]");?>'><?=$valor['nombre']?></a></li>
             
-         <?php endforeach; ?>
-    
-   
+         <?php endforeach; ?>   
         </ul>
     </div>
 	<div class="opciones">

@@ -61,6 +61,56 @@ html, body{
 	display: flex;
 	display: -webkit-flex;
 }
+/*
+hecho por mi
+ */
+.categorias{
+
+	display: flex;
+	display: -webkit-flex;   
+	justify-content: center;
+	margin-left: auto;
+	margin-right: auto;
+	
+
+}
+
+/*
+ hecho por mi
+ */
+.categorias ul{
+
+list-style-type: none; 
+
+}
+
+/*
+ hecho por mi
+ */
+.categorias ul>li{
+	display: inline;
+	margin-right: 1em;
+}
+
+/*
+ hecho por mi
+ */
+.categorias a{
+	font-size: 1.3em;
+	-webkit-transition:All 0.3s ease;
+	-moz-transition:All 0.3s ease;
+	-o-transition:All 0.3s ease;
+}
+/*
+ hecho por mi
+ */
+.categorias a:hover{
+	font-size: 1.4em;
+	color:#ECECEC;
+	-webkit-transition:All 0.3s ease;
+	-moz-transition:All 0.3s ease;
+	-o-transition:All 0.3s ease;
+}
 
 
 .opciones{

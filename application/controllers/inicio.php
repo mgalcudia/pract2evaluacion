@@ -5,7 +5,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-//require(__DIR__.'/mifichero.php'),
+//require(__DIR__.'/mi_controlador.php'),
 class Inicio extends CI_Controller{
     
     function __construct() {
