@@ -5,8 +5,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-//require(__DIR__.'/mi_controlador.php'),
-class Inicio extends CI_Controller{
+require(__DIR__.'/mi_controlador.php');
+class Inicio extends mi_controlador{
     
     function __construct() {
         parent::__construct();
@@ -15,15 +15,7 @@ class Inicio extends CI_Controller{
     }
     
     function index($inicio=0){
-    /*  $datos['encabezado'] = $this->load->view("encabezado", array(
-        'titulo' => 'Tienda online'
-        ), TRUE);
-
-      $datos['pie'] = $this->load->view("pie", 0, TRUE);
-      //$datos['cuerpo'] = $this->load->view("lorem", 0, TRUE);      
-      $this->load->view('plantilla', $datos);
-     */
-
+   
          $total_pagina=6;
          $total_destacados= $this->productos_model->total_destacados();
          
@@ -38,22 +30,22 @@ class Inicio extends CI_Controller{
          $config['full_tag_close'] = '</div>';//el cierre del div de la paginación
         
          $this->pagination->initialize($config);
-        $datas['paginador']= $this->pagination->create_links();
          
-        $productos= $this->productos_model->listar_destacados($inicio,$total_pagina);
+         
+        $datas['paginador']= $this->pagination->create_links();       
         
         $datas['titulo']= "<h1>Productos Destacados</h1>";
         
-        $datas['productos']= $productos;
+        $datas['productos']= $this->productos_model->listar_destacados($inicio,$total_pagina); 
         
-         $categ['categoria'] = $this->categorias_modelo->todas_categorias();
-  
-        $datos['encabezado'] = $this->load->view("encabezado",$categ , TRUE);
+        
 
-      $datos['pie'] = $this->load->view("pie", 0, TRUE);
+     
        
-        $datos['cuerpo'] = $this->load->view('destacados', $datas, TRUE);
-      $this->load->view('plantilla', $datos);
+        $cuerpo = $this->load->view('destacados', $datas, TRUE);
+     // $this->load->view('plantilla', $datos);
+        
+        $this->plantilla($cuerpo);
         
     }
     
