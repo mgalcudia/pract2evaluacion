@@ -13,7 +13,7 @@ class mi_controlador extends CI_Controller{
      * Carga la plantilla html (encabezado, menu, cuerpo y pie).
      * @param unknown $cuerpo
      */
-    protected function plantilla($cuerpo){
+  function plantilla($cuerpo){
          $categ['categoria'] = $this->categorias_modelo->todas_categorias();
   
         $encabezado= $this->load->view("encabezado",$categ , TRUE);
@@ -28,7 +28,26 @@ class mi_controlador extends CI_Controller{
             ));
     }
     
-    
+    function paginador($url,$total_pagina,$total_filas){
+        
+        //$config['uri_segment'] = 7;
+         $config['base_url']= $url;
+         $config['total_rows']= $total_filas;
+         $config['per_page'] = $total_pagina;
+         $config['num_links'] = 2;
+         $config['first_link'] = 'Primero';
+         $config['last_link'] = 'Último';
+         $config['full_tag_open'] = '<div id="paginacion">';//el div que debemos maquetar
+         $config['full_tag_close'] = '</div>';//el cierre del div de la paginación
+        
+         $this->pagination->initialize($config);
+         
+         
+         return $this->pagination->create_links(); 
+        
+        
+        
+    }
     
     
     
