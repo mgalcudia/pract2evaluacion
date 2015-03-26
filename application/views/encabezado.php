@@ -15,7 +15,7 @@
 	<div class="opciones">
 		<ul>
 			<li>
-				<a href="<?=site_url("");?>">Carrito</a>
+				<a href="<?=site_url();?>">Carrito</a>
 			</li>
 			
 			<li>

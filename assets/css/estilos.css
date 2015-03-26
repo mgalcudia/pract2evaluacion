@@ -160,3 +160,61 @@ list-style-type: none;
 	-moz-transition:All 0.3s ease;
 	-o-transition:All 0.3s ease;
 }
+
+
+/*
+    hecho por mi
+    div contenedor de los productos
+*/
+.produc_listado{
+    
+    
+}
+
+/*
+    hecho por mi
+    imagen del producto
+*/
+.imagen_produc{
+    
+}
+
+/*
+    hecho por mi
+    valor del producto
+*/
+.valor_produc{
+    
+    
+}
+
+/*
+    hecho por mi
+    precio del producto
+*/
+.precio_produc{
+    
+    
+}
+/*
+    hecho por mi
+    descuento del producto
+*/
+.descuento_produc{
+    
+    
+}
+
+/*
+    hecho por mi. 
+    div para la descripcion del producto al listarlo
+*/
+.descr_produc{
+    overflow: auto;
+    height: 10%;
+    width: 30%;
+    min-width: 5%;
+    max-width: 5%;
+    
+    
+}

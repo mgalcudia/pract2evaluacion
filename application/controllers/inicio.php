@@ -6,6 +6,7 @@
  * and open the template in the editor.
  */
 require(__DIR__.'/mi_controlador.php');
+
 class Inicio extends mi_controlador{
     
     function __construct() {
@@ -17,12 +18,12 @@ class Inicio extends mi_controlador{
     function index($inicio=0){
    
         //parametros para el paginador
-        $url= site_url('productos/pro_destacados');
+        $url= site_url('inicio/index');
         $total_pagina=6;
         $total_filas= $this->productos_model->total_destacados();
-          
+        $segm=3;  
            //llamada al paginador      
-        $datas['paginador']= $this->paginador($url,$total_pagina,$total_filas); 
+        $datas['paginador']= $this->paginador($url,$total_pagina,$total_filas,$segm); 
         
         $datas['titulo']= "<h1>Productos Destacados</h1>";
         

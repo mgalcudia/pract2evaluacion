@@ -28,9 +28,16 @@ class mi_controlador extends CI_Controller{
             ));
     }
     
-    function paginador($url,$total_pagina,$total_filas){
+    /**
+     * Funcion para paginar los productos
+     * @param type $url localizador del controlador donde nos encontramos 
+     * @param type $total_pagina
+     * @param type $total_filas
+     * @return type devuelve el paginador
+     */
+    function paginador($url,$total_pagina,$total_filas,$segm=4){
         
-        //$config['uri_segment'] = 7;
+        $config['uri_segment'] = $segm;
          $config['base_url']= $url;
          $config['total_rows']= $total_filas;
          $config['per_page'] = $total_pagina;
