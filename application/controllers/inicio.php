@@ -25,11 +25,11 @@ class Inicio extends mi_controlador{
            //llamada al paginador      
         $datas['paginador']= $this->paginador($url,$total_pagina,$total_filas,$segm); 
         
-        $datas['titulo']= "<h1>Productos Destacados</h1>";
+        $datas['titulo']= "Productos Destacados";
         
         $datas['productos']= $this->productos_model->listar_destacados($inicio,$total_pagina); 
         
-        $cuerpo = $this->load->view('destacados', $datas, TRUE);    
+        $cuerpo = $this->load->view('lista_productos', $datas, TRUE);    
         
         $this->plantilla($cuerpo);
         

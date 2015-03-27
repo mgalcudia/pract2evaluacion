@@ -73,7 +73,7 @@ class productos extends mi_controlador{
   
         $datos['encabezado'] = $this->load->view("encabezado",$categ , TRUE);
          $datos['pie'] = $this->load->view("pie", 0, TRUE);
-          $datos['cuerpo'] = $this->load->view('producto_categoria', $datas, TRUE);
+          $datos['cuerpo'] = $this->load->view('lista_productos', $datas, TRUE);
          $this->load->view('plantilla', $datos);
          
         

@@ -15,7 +15,9 @@
 	<div class="opciones">
 		<ul>
 			<li>
-				<a href="<?=site_url();?>">Carrito</a>
+				<a href="<?=site_url();?>">
+				Carrito <span class="glyphicon glyphicon-shopping-cart"></span>
+				</a>
 			</li>
 			
 			<li>
