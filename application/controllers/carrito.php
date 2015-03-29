@@ -11,7 +11,9 @@ class carrito extends mi_controlador{
         parent::__construct();
     }
     
-    
+    /**
+     * Agrega productos seleccionados al carrito
+     */
     function agregar_carrito() {
 
         // var_dump($_POST);
@@ -41,7 +43,21 @@ class carrito extends mi_controlador{
             'precio_final' => $this->calcular_precio($producto['precioVenta'], $producto['descuento'])
             );
         $this->cart->insert($datos); 
+         $this->session->set_flashdata('agregado', 'El producto fue agregado correctamente');
+      
+        redirect($this->input->post('url'));
+        var_dump($producto);
             
+    }
+    
+    /*
+     * vacia el carrito de la compra
+     */
+    
+     function eliminarCarrito() {
+        $this->cart->destroy();
+        $this->session->set_flashdata('destruido', 'El carrito fue eliminado correctamente');
+        redirect('');//mandar al carrito
     }
     
      /**
