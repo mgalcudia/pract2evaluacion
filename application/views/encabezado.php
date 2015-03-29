@@ -5,7 +5,7 @@
     <div class="categorias">
         
         <ul>
-     <?php foreach ($categoria as $clave => $valor) : ?>
+     <?php foreach ($categoria as $valor) : ?>
             
              <li><a href='<?=site_url("productos/producto_categoria/$valor[id]");?>'><?=$valor['nombre']?></a></li>
             

@@ -19,9 +19,15 @@
 
 			</div>
 			<div class="contenedor-botones">
-				<a href="#" class="boton verde centrado">
-					Añadir al carrito
-				</a>
+                        <form action='<?= site_url("carrito/agregar_carrito")?>' method="post">
+                          <input type="hidden" name="id_producto" value="<?=$producto['id']?>"/>
+                          <input type="hidden" name="descuento" value="<?=$producto['descuento']?>"/>
+                          <input type="hidden" name="url" value="<?= current_url() ?>" />
+                          
+                          <button type="submit" class="boton verde centrado">
+					Añadir al carrito 
+				</button>
+                        </form>
 			</div>
 			
 		</div>

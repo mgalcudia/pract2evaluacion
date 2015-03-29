@@ -247,3 +247,28 @@ div.datos{
 	margin:1em auto;
 }
 
+
+/*
+
+    PAGINACION HECHO POR MI, BUENO ....
+
+*/
+
+.paginador{
+    margin: 30px 0px 30px 5px;
+    padding: 3px;
+    color: #333;
+    
+}
+
+.paginador a{  
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    color: #696969;
+    text-decoration: none;
+    font-weight: bold;
+    margin: 1px;
+    border-radius: 4px;
+    padding: 4px
+    
+    
+}
