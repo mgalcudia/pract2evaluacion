@@ -50,6 +50,23 @@ class carrito extends mi_controlador{
             
     }
     
+        function eliminarProducto($rowid) 
+    {
+        //para eliminar un producto en especifico lo que hacemos es conseguir su id
+        //y actualizarlo poniendo qty que es la cantidad a 0
+        $producto = array(
+            'rowid' => $rowid,
+            'qty' => 0
+        );
+        //después simplemente utilizamos la función update de la librería cart
+        //para actualizar el carrito pasando el array a actualizar
+        $this->cart->update($producto);
+        
+        $this->session->set_flashdata('productoEliminado', 'El producto fue eliminado correctamente');
+        
+        
+    }
+    
     /*
      * vacia el carrito de la compra
      */
@@ -68,6 +85,21 @@ class carrito extends mi_controlador{
      */
     function calcular_precio($precio, $desc=0){
         return floatval($precio - ($precio*$desc/100));
+    }
+    
+    function mostrar_carro(){
+        
+        $datas['productos']= $this->cart->contents();
+        $datas['precio']= $this->cart->total();        
+        var_dump($datas);
+        
+        $cuerpo = $this->load->view('productos_carro', $datas, TRUE);    
+        
+        $this->plantilla($cuerpo);
+        
+        
+        
+        
     }
 
 }

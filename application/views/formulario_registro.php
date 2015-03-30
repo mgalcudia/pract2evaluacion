@@ -1,4 +1,3 @@
-
 <form method="post" action="<?=base_url('index.php/usuario_controlador/registrousuario')?>">
 
 <legend>Datos personales</legend>	
