@@ -63,6 +63,7 @@ class carrito extends mi_controlador{
         $this->cart->update($producto);
         
         $this->session->set_flashdata('productoEliminado', 'El producto fue eliminado correctamente');
+        redirect('carrito/mostrar_carro');
         
         
     }
@@ -71,10 +72,10 @@ class carrito extends mi_controlador{
      * vacia el carrito de la compra
      */
     
-     function eliminarCarrito() {
+     function eliminar_carrito() {
         $this->cart->destroy();
         $this->session->set_flashdata('destruido', 'El carrito fue eliminado correctamente');
-        redirect('');//mandar al carrito
+        redirect('carrito/mostrar_carro');//mandar al carrito
     }
     
      /**

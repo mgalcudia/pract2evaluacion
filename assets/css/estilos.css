@@ -269,6 +269,21 @@ div.datos{
     margin: 1px;
     border-radius: 4px;
     padding: 4px
+}
+
+.tabla_carrito{
+    border-collapse:collapse;
+ 
+}
+
+.tabla_carrito th,td{
     
+    border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.tabla_carrito a{
     
+    text-decoration: none;
+	text-align: center;
+	color: #2F4F4F;
 }
