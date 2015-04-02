@@ -19,8 +19,5 @@
         <td colspan="1"><?= $precio ?> euros.</td>
         <td colspan="3"><a href="<?= site_url('carrito/eliminar_carrito') ?>">Vaciar carrito</a></td>
     </tr>
-
-
-
-
 </table>
+<a href="<?=site_url('carrito/finalizar_compra')?>">Finalizar compra</a>

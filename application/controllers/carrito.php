@@ -50,6 +50,10 @@ class carrito extends mi_controlador{
             
     }
     
+    /**
+     * 
+     * @param type $rowid
+     */
         function eliminarProducto($rowid) 
     {
         //para eliminar un producto en especifico lo que hacemos es conseguir su id
@@ -94,13 +98,53 @@ class carrito extends mi_controlador{
         $datas['precio']= $this->cart->total();        
         var_dump($datas);
         
+        
+        
         $cuerpo = $this->load->view('productos_carro', $datas, TRUE);    
         
         $this->plantilla($cuerpo);
-        
-        
-        
-        
     }
 
+    
+    function finalizar_compra(){
+        
+        $total_productos= $this->cart->total_items();
+        var_dump($total_productos);
+        if($total_productos==0){
+            $datas['ruta']= base_url('assets/fonts/carrito-vacio.jpg');
+            $cuerpo= $this->load->view('carrito_vacio',$datas,TRUE);
+            $this->plantilla($cuerpo);            
+        }
+    }
+        
+        /**
+         * comprueba que los productos del carrito esten en stock
+         * 
+         * @return array 
+         */
+        function comprobar_stock(){
+            
+        $articulos = [];
+        $productos = $this->cart->contents();
+
+
+        foreach ($productos as $producto) {
+            if($producto['qty'] > $this->productos_model->coprobar_stock($producto['id']))
+                { //No hay stock suficiente
+            
+                array_push($articulos, $articulo['name']);
+            }
+        }
+        return $articulos;
+            
+         
+        
+    }
+    
+    
+    
+    /*
+     * fin 
+     */
+    
 }
