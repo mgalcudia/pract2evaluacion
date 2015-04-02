@@ -109,11 +109,17 @@ class carrito extends mi_controlador{
     function finalizar_compra(){
         
         $total_productos= $this->cart->total_items();
-        var_dump($total_productos);
+        $productos_sin_existencias= $this->comprobar_stock();
+        var_dump($productos_sin_existencias);
         if($total_productos==0){
             $datas['ruta']= base_url('assets/fonts/carrito-vacio.jpg');
             $cuerpo= $this->load->view('carrito_vacio',$datas,TRUE);
             $this->plantilla($cuerpo);            
+        }
+        elseif(count($productos_sin_existencias)>0){
+            
+            
+            
         }
     }
         
@@ -126,13 +132,13 @@ class carrito extends mi_controlador{
             
         $articulos = [];
         $productos = $this->cart->contents();
-
+       
 
         foreach ($productos as $producto) {
             if($producto['qty'] > $this->productos_model->coprobar_stock($producto['id']))
                 { //No hay stock suficiente
             
-                array_push($articulos, $articulo['name']);
+                array_push($articulos, $producto['name']);
             }
         }
         return $articulos;
