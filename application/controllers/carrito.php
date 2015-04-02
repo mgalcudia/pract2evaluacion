@@ -112,15 +112,36 @@ class carrito extends mi_controlador{
         $productos_sin_existencias= $this->comprobar_stock();
         var_dump($productos_sin_existencias);
         if($total_productos==0){
-            $datas['ruta']= base_url('assets/fonts/carrito-vacio.jpg');
+            $datas['ruta']= base_url('assets/fonts/carro_vacio.png');
             $cuerpo= $this->load->view('carrito_vacio',$datas,TRUE);
             $this->plantilla($cuerpo);            
         }
         elseif(count($productos_sin_existencias)>0){
             
+           $datas['productos']= $productos_sin_existencias;
+           $cuerpo= $this->load->view('productos_sin_existencias',$datas,TRUE);
+            $this->plantilla($cuerpo);
+        }else{
+            
+            if(){
+                
+            }else{
+                
+                $datas['productos']= $this->car->contens();
+                $datas['total']=  $this->car->total();
+                
+                
+                
+                
+            }
+            
+            
             
             
         }
+        
+        
+        
     }
         
         /**
