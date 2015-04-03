@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Pedidos_model extends CI_Model {
+class pedidos_modelo extends CI_Model {
     
     function __construct() {
         parent::__construct();
@@ -14,12 +14,18 @@ class Pedidos_model extends CI_Model {
         $query = $this->db->get('pedido');
         return $query->result_array();
     }
-        /**
+    
+    /**
      * Crea un nuevo pedido
      * @param type $datos
      */
     function crear_pedido($datos){
-        $this->db->insert('pedido', $datos);
+     
+        if($this->db->insert('pedido', $datos)){
+            return $this->db->insert_id();
+        } else {
+            return false;
+        }
     }
     
     /**

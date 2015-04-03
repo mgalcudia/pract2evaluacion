@@ -23,7 +23,7 @@ class carrito extends mi_controlador {
         $cantidad = 1;
         //obtenemos el contenido del carrito
         $carrito = $this->cart->contents();
-        var_dump($producto);
+        //var_dump($producto);
         foreach ($carrito as $item) {
             //si el id del producto es igual que uno que ya tengamos
             //en la cesta le sumamos uno a la cantidad
@@ -39,13 +39,14 @@ class carrito extends mi_controlador {
             'name' => $producto['nombre'],
             'stock' => $producto['cantidad'],
             'descuento' => $producto['descuento'],
+            'iva'=>$producto['iva'],
             'precio_final' => $this->calcular_precio($producto['precioVenta'], $producto['descuento'])
         );
         $this->cart->insert($datos);
-        $this->session->set_flashdata('agregado', 'El producto fue agregado correctamente');
+        //$this->session->set_flashdata('agregado', 'El producto fue agregado correctamente');
 
         redirect($this->input->post('url'));
-        var_dump($producto);
+        //var_dump($producto);
     }
 
     /**
@@ -91,7 +92,7 @@ class carrito extends mi_controlador {
 
         $datas['productos'] = $this->cart->contents();
         $datas['precio'] = $this->cart->total();
-        var_dump($datas);
+       //var_dump($datas);
 
 
 
@@ -100,19 +101,18 @@ class carrito extends mi_controlador {
         $this->plantilla($cuerpo);
     }
 
-    
     function finalizar_compra() {
 
         $total_productos = $this->cart->total_items();
         $productos_sin_existencias = $this->comprobar_stock();
-        $detalle_pedido =$this->input->post('detalle_pedido');
-        
+        $detalle_pedido = $this->input->post('detalle_pedido');
+        $productos_carrito= $this->cart->contents();
+
         if ($total_productos == 0) { //si no ha pedidos muestra el carrito vacio
             $datas['ruta'] = base_url('assets/fonts/carro_vacio.png');
             $cuerpo = $this->load->view('carrito_vacio', $datas, TRUE);
             $this->plantilla($cuerpo);
         } elseif (count($productos_sin_existencias) > 0) { //informa si no hay existencias de productos
-
             $datas['productos'] = $productos_sin_existencias;
             $cuerpo = $this->load->view('productos_sin_existencias', $datas, TRUE);
             $this->plantilla($cuerpo);
@@ -120,26 +120,71 @@ class carrito extends mi_controlador {
 
             if ($detalle_pedido) {
                 
-                //TODO: datos del cliente a modificar cuando termine el loguin,
-                // mientras los genero directamente
-                
-                
+                $datos_pedido= $this->datos_pedido();
+                //var_dump($datos_pedido);
+                $pedido_id= $this->pedidos_modelo->crear_pedido($datos_pedido);
+               //var_dump($productos_carrito);
+               foreach ($productos_carrito as $producto){
+                   
+                    $datosLinea=array(
+                            'producto_id'=>$producto['id'],
+                            'pedido_id'=>$pedido_id,
+                            'cantidad'=>$producto['qty'],
+                            'precio_venta'=>$producto['price'],
+                            'descuento'=>$producto['descuento'],
+                            'iva' => $producto['iva']
+                            );
+                        $almacenado = $this->productos_model->almacenado($producto['id']);
+                        
+                        $stock = $almacenado-$producto['qty'];
+                        var_dump($stock);
+                       /* 
+                        $this->productos_model->set_stock($articulo['id'], $stock);
+                        $this->lineas_pedido_model->crear_linea_pedido($datosLinea);
+                   */
+                   
+                   
+               }
                 
                 
             } else {
 
-                $datas['productos'] = $this->cart->contents();
+                $datas['productos'] = $productos_carrito;
                 $datas['total'] = $this->cart->total();
                 $cuerpo = $this->load->view('detalle_pedido', $datas, TRUE);
                 $this->plantilla($cuerpo);
             }
         }
     }
-    
-    
-    
-    
-    
+
+    /**
+     * funcion para crear los datos del pedido
+     * @return array de pedido
+     */
+    function datos_pedido() {
+
+
+        //TODO: datos del cliente a modificar cuando termine el loguin,
+        // mientras los genero directamente
+        $usuario['usuario'] = 'usuario2';
+        $cliente = $this->clientes_modelo->datos_cliente($usuario);
+        
+        $pedido = array(
+            'cliente_id' => $cliente['id'],
+            'nombre' => $cliente['nombre'],
+            'apellidos' => $cliente['apellidos'],
+            'email' => $cliente['email'],
+            'dni' => $cliente['dni'],
+            'direccion' => $cliente['direccion'],
+            'provincia' => $cliente['provincia_id'],
+            'codpostal' => $cliente['codpostal'],
+            'cantidad' => $this->cart->total_items(),
+            'importe' => $this->cart->total(),
+            'fecha_pedido' => date('Y-m-d')
+        );
+        //var_dump($pedido);
+        return $pedido;
+    }
 
     /**
      * comprueba que los productos del carrito esten en stock
@@ -160,13 +205,6 @@ class carrito extends mi_controlador {
         return $articulos;
     }
 
-    
-    
-    
-    
-    
-    
-    
     /*
      * fin 
      */

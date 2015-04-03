@@ -63,6 +63,17 @@ class Clientes_modelo extends CI_Model {
         return $query->result_array();
     }
 
+    /**
+     * obtiene los datos de un cliente según diversos criterios
+     * @param type $datos
+     * @return type
+     */
+    function datos_cliente($datos){
+        $this->db->where($datos);
+        $query = $this->db->get('cliente');
+        return $query->row_array();
+    }
+    
      /**
      * Obtener los clientes registrados en la base de datos
      * @return array

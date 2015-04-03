@@ -126,4 +126,15 @@ class productos_model extends CI_Model {
         $this->db->where('id', $id);
         return $this->db->get('producto')->row_array()['cantidad'];
     }
+    
+    /**
+     * 
+     * @param type $id
+     * @return type
+     */
+        function almacenado($id){
+        $this->db->select('cantidad');
+        $this->db->where('id', $id);
+        return $this->db->get('producto')->row_array()['cantidad'];
+    }
 }
