@@ -137,4 +137,14 @@ class productos_model extends CI_Model {
         $this->db->where('id', $id);
         return $this->db->get('producto')->row_array()['cantidad'];
     }
+    
+    
+    
+        function actualiza_almacen($id, $cantidad){
+        $this->db->where('id', $id);
+        $this->db->update('producto', array(
+            'cantidad' => $cantidad
+            ));
+    }
+    
 }

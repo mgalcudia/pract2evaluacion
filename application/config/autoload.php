@@ -110,7 +110,7 @@ $autoload['language'] = array();
 */
 
 $autoload['model'] = array('clientes_modelo', 'provincias_modelo','productos_model',
-                                'categorias_modelo','productos_model','pedidos_modelo');
+                                'categorias_modelo','productos_model','pedidos_modelo','linea_pedido_modelo');
 
 
 /* End of file autoload.php */

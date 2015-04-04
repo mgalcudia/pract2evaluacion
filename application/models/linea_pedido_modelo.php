@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Lineas_Pedidos_model extends CI_Model {
+class linea_pedido_modelo extends CI_Model {
     
     function __construct() {
         parent::__construct();
@@ -20,8 +20,8 @@ class Lineas_Pedidos_model extends CI_Model {
      * Crea un nuevo linea_linea_pedido
      * @param type $datos
      */
-    function crear_linea_pedido($datos){
-        $this->db->insert('linea_pedido', $datos);
+    function crear_linea_pedido($pedido){
+        $this->db->insert('linea_pedido', $pedido);
     }
     /**
      * Busca lineas de pedido por $datos

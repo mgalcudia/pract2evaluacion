@@ -39,7 +39,16 @@ class pedidos_modelo extends CI_Model {
         return $query->result_array();
     }
     
-
+    /**
+     * Busca un pedido por $datos
+     * @param type $datos
+     * @return type
+     */
+    function obten_pedido($datos){
+        $this->db->where('id', $datos);       
+        $query = $this->db->get('pedido');
+        return $query->row_array();
+    }
     
 }
 

@@ -126,7 +126,7 @@ class carrito extends mi_controlador {
                //var_dump($productos_carrito);
                foreach ($productos_carrito as $producto){
                    
-                    $datosLinea=array(
+                    $pedido=array(
                             'producto_id'=>$producto['id'],
                             'pedido_id'=>$pedido_id,
                             'cantidad'=>$producto['qty'],
@@ -136,16 +136,14 @@ class carrito extends mi_controlador {
                             );
                         $almacenado = $this->productos_model->almacenado($producto['id']);
                         
-                        $stock = $almacenado-$producto['qty'];
-                        var_dump($stock);
-                       /* 
-                        $this->productos_model->set_stock($articulo['id'], $stock);
-                        $this->lineas_pedido_model->crear_linea_pedido($datosLinea);
-                   */
-                   
-                   
+                        $almacen = $almacenado-$producto['qty'];
+                        var_dump($almacen);
+                        //var_dump($datosLinea);*/
+                        $this->productos_model->actualiza_almacen($producto['id'], $almacen);
+                       $this->linea_pedido_modelo->crear_linea_pedido($pedido);
                }
-                
+               $this->cart->destroy();//vaciamos el carrito.
+               $this->generar_factura($pedido_id);//generamos el pdf de la factura
                 
             } else {
 
@@ -155,6 +153,18 @@ class carrito extends mi_controlador {
                 $this->plantilla($cuerpo);
             }
         }
+    }
+
+    
+    
+    function generar_factura($pedido_id) {
+
+        //obtenemos los datos del pedido
+        $pedido = $this->pedidos_modelo->obten_pedido($pedido_id);
+        //obtenemos los productos del pedido
+        $linea_pedido = $this->lineas_pedido_modelo->buscar_linea_pedidos(array(
+            'pedido_id' => $pedido['id']
+        ));
     }
 
     /**
