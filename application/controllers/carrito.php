@@ -137,12 +137,12 @@ class carrito extends mi_controlador {
                         $almacenado = $this->productos_model->almacenado($producto['id']);
                         
                         $almacen = $almacenado-$producto['qty'];
-                        var_dump($almacen);
+                        //var_dump($almacen);
                         //var_dump($datosLinea);*/
                         $this->productos_model->actualiza_almacen($producto['id'], $almacen);
                        $this->linea_pedido_modelo->crear_linea_pedido($pedido);
                }
-               $this->cart->destroy();//vaciamos el carrito.
+              // $this->cart->destroy();//vaciamos el carrito.
                $this->generar_factura($pedido_id);//generamos el pdf de la factura
                 
             } else {
@@ -158,15 +158,92 @@ class carrito extends mi_controlador {
     
     
     function generar_factura($pedido_id) {
-
+        
         //obtenemos los datos del pedido
         $pedido = $this->pedidos_modelo->obten_pedido($pedido_id);
+        //var_dump($pedido);
         //obtenemos los productos del pedido
-        $linea_pedido = $this->lineas_pedido_modelo->buscar_linea_pedidos(array(
+        $linea_pedido = $this->linea_pedido_modelo->buscar_linea_pedidos(array(
             'pedido_id' => $pedido['id']
         ));
-    }
+        
+        print_r($pedido_id);
+        /*
+         * Se crea un objeto de la clase Pdf, recuerda que la clase Pdf
+         * heredó todos las variables y métodos de fpdf
+         */
+        $this->pdf = new pdf();
+        // Agregamos una página
+        $this->pdf->AddPage();
+        // Define el alias para el número de página que se imprimirá en el pie
+        $this->pdf->AliasNbPages();
+        
+        /* Se define el titulo, márgenes izquierdo, derecho y
+         * el color de relleno predeterminado
+         */
+        
+        $this->pdf->SetTitle("Factura");
+        $this->pdf->SetLeftMargin(15);
+        $this->pdf->SetRightMargin(15);
+        $this->pdf->SetFillColor(200,200,200); // color de relleno de la celda
+        
+        // Se define el formato de fuente: Arial, negritas, tamaño 9
+        $this->pdf->SetFont('Arial', 'B', 9);
+        $this->pdf->Cell(120,10,utf8_decode('Factura Nº: '.$pedido_id),0,0,'C');
+        $this->pdf->Ln(5);
+        $this->pdf->Cell(30);
+        $this->pdf->Cell(120,10,'Datos personales',0,0,'C');
+        $this->pdf->Ln(12);
+        
+        // $this->pdf->Cell(Ancho, Alto,texto,borde,posición,alineación,relleno);
+        
+        foreach ($pedido as $campo => $valor) {
+            $this->pdf->Cell(30);
+            $this->pdf->Cell(38, 7, utf8_decode($campo), 'TBL', 0, 'L', '1');
+            $this->pdf->Cell(50, 7, utf8_decode($valor), 'TBLR', 0, 'L', '1');
+            $this->pdf->Ln(7);
+        }
+        
+        
+         $this->pdf->Ln(7);
 
+        $this->pdf->Cell(30);
+        $this->pdf->Cell(120,10,'Productos comprados',0,0,'C');
+        $this->pdf->Ln(12);
+        
+        
+       foreach ($linea_pedido as $numero => $linea) 
+           {
+           $id_producto= $linea['producto_id'];
+           $producto= $this->productos_model->obten_producto($id_producto);
+           
+         $linea_pedido[$numero]['nombre_producto'] = utf8_decode($producto['nombre']);
+       
+         }
+        // print_r($articulo);
+          foreach ($linea_pedido as $linea) {
+            foreach ($linea as $key => $value) {
+                $this->pdf->Cell(30);
+                $this->pdf->Cell(38,7, $key,'TBL',0,'L','0');
+                $this->pdf->Cell(50,7, $value,'TBLR',0,'L','0');
+                $this->pdf->Ln(7);
+            }
+
+            $this->pdf->Ln(1);
+        }
+
+        
+        //Podemos mostrar con I, descargar con D, o guardar con F
+        //$this->pdf->Output($pedido['id'].".pdf", 'I');
+        //$this->pdf->Output("Lista de provincias.pdf", 'D');
+        $this->pdf->Output(APPPATH."../pdf/fact_".$pedido['id'].".pdf", 'F');
+        
+        
+        
+        
+        
+        
+    }
     /**
      * funcion para crear los datos del pedido
      * @return array de pedido
