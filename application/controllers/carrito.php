@@ -39,7 +39,7 @@ class carrito extends mi_controlador {
             'name' => $producto['nombre'],
             'stock' => $producto['cantidad'],
             'descuento' => $producto['descuento'],
-            'iva'=>$producto['iva'],
+            'iva' => $producto['iva'],
             'precio_final' => $this->calcular_precio($producto['precioVenta'], $producto['descuento'])
         );
         $this->cart->insert($datos);
@@ -92,7 +92,7 @@ class carrito extends mi_controlador {
 
         $datas['productos'] = $this->cart->contents();
         $datas['precio'] = $this->cart->total();
-       //var_dump($datas);
+        //var_dump($datas);
 
 
 
@@ -106,7 +106,7 @@ class carrito extends mi_controlador {
         $total_productos = $this->cart->total_items();
         $productos_sin_existencias = $this->comprobar_stock();
         $detalle_pedido = $this->input->post('detalle_pedido');
-        $productos_carrito= $this->cart->contents();
+        $productos_carrito = $this->cart->contents();
 
         if ($total_productos == 0) { //si no ha pedidos muestra el carrito vacio
             $datas['ruta'] = base_url('assets/fonts/carro_vacio.png');
@@ -119,32 +119,32 @@ class carrito extends mi_controlador {
         } else {
 
             if ($detalle_pedido) {
-                
-                $datos_pedido= $this->datos_pedido();
+
+                $datos_pedido = $this->datos_pedido();
                 //var_dump($datos_pedido);
-                $pedido_id= $this->pedidos_modelo->crear_pedido($datos_pedido);
-               //var_dump($productos_carrito);
-               foreach ($productos_carrito as $producto){
-                   
-                    $pedido=array(
-                            'producto_id'=>$producto['id'],
-                            'pedido_id'=>$pedido_id,
-                            'cantidad'=>$producto['qty'],
-                            'precio_venta'=>$producto['price'],
-                            'descuento'=>$producto['descuento'],
-                            'iva' => $producto['iva']
-                            );
-                        $almacenado = $this->productos_model->almacenado($producto['id']);
-                        
-                        $almacen = $almacenado-$producto['qty'];
-                        //var_dump($almacen);
-                        //var_dump($datosLinea);*/
-                        $this->productos_model->actualiza_almacen($producto['id'], $almacen);
-                       $this->linea_pedido_modelo->crear_linea_pedido($pedido);
-               }
-              // $this->cart->destroy();//vaciamos el carrito.
-               $this->generar_factura($pedido_id);//generamos el pdf de la factura
-                
+                $pedido_id = $this->pedidos_modelo->crear_pedido($datos_pedido);
+                //var_dump($productos_carrito);
+                foreach ($productos_carrito as $producto) {
+
+                    $pedido = array(
+                        'producto_id' => $producto['id'],
+                        'pedido_id' => $pedido_id,
+                        'cantidad' => $producto['qty'],
+                        'precio_venta' => $producto['price'],
+                        'descuento' => $producto['descuento'],
+                        'iva' => $producto['iva']
+                    );
+                    $almacenado = $this->productos_model->almacenado($producto['id']);
+
+                    $almacen = $almacenado - $producto['qty'];
+                    //var_dump($almacen);
+                    //var_dump($datosLinea);*/
+                    $this->productos_model->actualiza_almacen($producto['id'], $almacen);
+                    $this->linea_pedido_modelo->crear_linea_pedido($pedido);
+                }
+                // $this->cart->destroy();//vaciamos el carrito.
+                $this->generar_factura($pedido_id); //generamos el pdf de la factura
+                $this->mandar_correo($pedido_id);
             } else {
 
                 $datas['productos'] = $productos_carrito;
@@ -155,10 +155,37 @@ class carrito extends mi_controlador {
         }
     }
 
-    
-    
+    function mandar_correo($pedido_id) {
+
+        //obtenemos los datos del pedido
+        $pedido = $this->pedidos_modelo->obten_pedido($pedido_id);
+        print_r($pedido);
+        $config['protocol'] = 'smtp';
+        $config['smtp_host'] = 'mail.iessansebastian.com';
+        $config['smtp_user'] = 'aula4@iessansebastian.com';
+        $config['smtp_pass'] = 'daw2alumno';
+
+        $this->email->initialize($config);
+
+        $this->email->from('aula4@iessansebastian.com', 'Prueba Automática desde CI');
+        //$this->email->to('malcudia@gmail.com');
+        $this->email->to($pedido['email']);
+
+        $this->email->cc('malcudia@gmail.com');
+        $this->email->subject('Factura Pedido ' . $pedido_id);
+        $this->email->message('Gracias por su compra.');
+        if (file_exists(APPPATH . "../pdf/" . "fact_" . $pedido_id . ".pdf")) {
+            $this->email->attach(APPPATH . "../pdf/" . "fact_" . $pedido_id . ".pdf");
+            return $this->email->send();
+        }
+    }
+
+    /**
+     *  funcion que genera el pdf de la factura
+     * @param type $pedido_id
+     */
     function generar_factura($pedido_id) {
-        
+
         //obtenemos los datos del pedido
         $pedido = $this->pedidos_modelo->obten_pedido($pedido_id);
         //var_dump($pedido);
@@ -166,7 +193,7 @@ class carrito extends mi_controlador {
         $linea_pedido = $this->linea_pedido_modelo->buscar_linea_pedidos(array(
             'pedido_id' => $pedido['id']
         ));
-        
+
         print_r($pedido_id);
         /*
          * Se crea un objeto de la clase Pdf, recuerda que la clase Pdf
@@ -177,73 +204,65 @@ class carrito extends mi_controlador {
         $this->pdf->AddPage();
         // Define el alias para el número de página que se imprimirá en el pie
         $this->pdf->AliasNbPages();
-        
+
         /* Se define el titulo, márgenes izquierdo, derecho y
          * el color de relleno predeterminado
          */
-        
+
         $this->pdf->SetTitle("Factura");
         $this->pdf->SetLeftMargin(15);
         $this->pdf->SetRightMargin(15);
-        $this->pdf->SetFillColor(200,200,200); // color de relleno de la celda
-        
+        $this->pdf->SetFillColor(200, 200, 200); // color de relleno de la celda
         // Se define el formato de fuente: Arial, negritas, tamaño 9
         $this->pdf->SetFont('Arial', 'B', 9);
-        $this->pdf->Cell(120,10,utf8_decode('Factura Nº: '.$pedido_id),0,0,'C');
+        $this->pdf->Cell(120, 10, utf8_decode('Factura Nº: ' . $pedido_id), 0, 0, 'C');
         $this->pdf->Ln(5);
         $this->pdf->Cell(30);
-        $this->pdf->Cell(120,10,'Datos personales',0,0,'C');
+        $this->pdf->Cell(120, 10, 'Datos personales', 0, 0, 'C');
         $this->pdf->Ln(12);
-        
+
         // $this->pdf->Cell(Ancho, Alto,texto,borde,posición,alineación,relleno);
-        
+
         foreach ($pedido as $campo => $valor) {
             $this->pdf->Cell(30);
             $this->pdf->Cell(38, 7, utf8_decode($campo), 'TBL', 0, 'L', '1');
             $this->pdf->Cell(50, 7, utf8_decode($valor), 'TBLR', 0, 'L', '1');
             $this->pdf->Ln(7);
         }
-        
-        
-         $this->pdf->Ln(7);
+
+
+        $this->pdf->Ln(7);
 
         $this->pdf->Cell(30);
-        $this->pdf->Cell(120,10,'Productos comprados',0,0,'C');
+        $this->pdf->Cell(120, 10, 'Productos comprados', 0, 0, 'C');
         $this->pdf->Ln(12);
-        
-        
-       foreach ($linea_pedido as $numero => $linea) 
-           {
-           $id_producto= $linea['producto_id'];
-           $producto= $this->productos_model->obten_producto($id_producto);
-           
-         $linea_pedido[$numero]['nombre_producto'] = utf8_decode($producto['nombre']);
-       
-         }
+
+
+        foreach ($linea_pedido as $numero => $linea) {
+            $id_producto = $linea['producto_id'];
+            $producto = $this->productos_model->obten_producto($id_producto);
+
+            $linea_pedido[$numero]['nombre_producto'] = utf8_decode($producto['nombre']);
+        }
         // print_r($articulo);
-          foreach ($linea_pedido as $linea) {
+        foreach ($linea_pedido as $linea) {
             foreach ($linea as $key => $value) {
                 $this->pdf->Cell(30);
-                $this->pdf->Cell(38,7, $key,'TBL',0,'L','0');
-                $this->pdf->Cell(50,7, $value,'TBLR',0,'L','0');
+                $this->pdf->Cell(38, 7, $key, 'TBL', 0, 'L', '0');
+                $this->pdf->Cell(50, 7, $value, 'TBLR', 0, 'L', '0');
                 $this->pdf->Ln(7);
             }
 
             $this->pdf->Ln(1);
         }
 
-        
+
         //Podemos mostrar con I, descargar con D, o guardar con F
         //$this->pdf->Output($pedido['id'].".pdf", 'I');
         //$this->pdf->Output("Lista de provincias.pdf", 'D');
-        $this->pdf->Output(APPPATH."../pdf/fact_".$pedido['id'].".pdf", 'F');
-        
-        
-        
-        
-        
-        
+        $this->pdf->Output(APPPATH . "../pdf/fact_" . $pedido['id'] . ".pdf", 'F');
     }
+
     /**
      * funcion para crear los datos del pedido
      * @return array de pedido
@@ -255,7 +274,7 @@ class carrito extends mi_controlador {
         // mientras los genero directamente
         $usuario['usuario'] = 'usuario2';
         $cliente = $this->clientes_modelo->datos_cliente($usuario);
-        
+
         $pedido = array(
             'cliente_id' => $cliente['id'],
             'nombre' => $cliente['nombre'],
