@@ -1,3 +1,4 @@
 <div class="pie">
-	<p>Pie de la aplicación</p>
+	
+        <a href="https://github.com/mgalcudia" target="_blank">Manuel García Alcudia</a>
 </div>

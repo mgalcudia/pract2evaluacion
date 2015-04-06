@@ -56,7 +56,7 @@ $db['default']['password'] = '';
 $db['default']['database'] = 'practica2';
  
  */
-if('Modo_local'){
+if(modo_local){
 $db['default']['username'] = 'root';
 $db['default']['password'] = '';
 $db['default']['database'] = 'practica2';

@@ -54,9 +54,9 @@ html, body{
 	display: -webkit-flex;
 }
 
-.pie p{
+.pie a{
 	margin-left: auto;
-	margin-right: 3em;
+	margin-right: 2em;
 	margin-top:auto;
 	margin-bottom: auto;
 }
@@ -107,7 +107,7 @@ html, body{
 	margin-bottom: auto;
 }
 
-.encabezado a{
+.encabezado a, .pie a{
 	text-decoration: none;
 	color: black;
 }
@@ -116,13 +116,13 @@ html, body{
 	color:#ECECEC;
 }
 
-.categorias a, .opciones a{
+.categorias a, .opciones a, .pie a{
 	-webkit-transition:All 0.3s ease;
 	-moz-transition:All 0.3s ease;
 	-o-transition:All 0.3s ease;
 }
 
-.categorias a:hover, .opciones a:hover{
+.categorias a:hover, .opciones a:hover, .pie a:hover{
 	font-size: 1.1em;
 	color:#ECECEC;
 	-webkit-transition:All 0.3s ease;

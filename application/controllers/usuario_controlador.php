@@ -2,15 +2,13 @@
 
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
+require(__DIR__ . '/mi_controlador.php');
 
-class usuario_controlador extends CI_Controller {
+class usuario_controlador extends mi_controlador {
 
     function __construct() {
         parent::__construct();
-        $this->load->library('form_validation');
     }
-
-  
 
     function registrousuario() {
 
@@ -36,20 +34,18 @@ class usuario_controlador extends CI_Controller {
             /* $this->plantilla(
               $this->load->view('registro_form', array('provincias' => $provincias), TRUE)); */
             //$menuizq = $this->load->view('menuinzquierdo');
-            
-                 /* $datos['encabezado'] = $this->load->view("encabezado", array(
-        'titulo' => 'Tienda online'
-        ), TRUE);*/
-                     $categ['categoria'] = $this->categorias_modelo->todas_categorias();
-  
-        $datos['encabezado'] = $this->load->view("encabezado",$categ , TRUE);
 
-      $datos['pie'] = $this->load->view("pie", 0, TRUE);
-      $datos['cuerpo'] = $this->load->view('formulario_registro', $data, TRUE);
-            
-            $this->load->view('plantilla', $datos);
-            
-            
+            /* $datos['encabezado'] = $this->load->view("encabezado", array(
+              'titulo' => 'Tienda online'
+              ), TRUE); */
+        //    $categ['categoria'] = $this->categorias_modelo->todas_categorias();
+
+        //    $datos['encabezado'] = $this->load->view("encabezado", $categ, TRUE);
+
+        //    $datos['pie'] = $this->load->view("pie", 0, TRUE);
+            $cuerpo = $this->load->view('formulario_registro', $data, TRUE);
+            $this->plantilla($cuerpo);
+            //$this->load->view('plantilla', $datos);
         } else {
             $datos['nombre'] = $this->input->post('nombre');
             $datos['apellidos'] = $this->input->post('apellidos');
@@ -94,30 +90,29 @@ class usuario_controlador extends CI_Controller {
         }
         return TRUE;
     }
-/**
- *  funcion para loguear usuario
- */
+
+    /**
+     *  funcion para loguear usuario
+     */
     function loguearse() {
 
         $this->form_validation->set_rules('usuario', 'usuario', 'trim|required|min_length[3]|max_length[25]|xss_clean');
         $this->form_validation->set_rules('password', 'password', 'trim|required|md5');
 
         if ($this->form_validation->run() == FALSE) {
-            
-            /*
-             $datos['encabezado'] = $this->load->view("encabezado", array(
-        'titulo' => 'Tienda online'
-        ), TRUE);*/
-                     $categ['categoria'] = $this->categorias_modelo->todas_categorias();
-  
-        $datos['encabezado'] = $this->load->view("encabezado",$categ , TRUE);
 
-      $datos['pie'] = $this->load->view("pie", 0, TRUE);
-      $datos['cuerpo'] = $this->load->view('login', '', TRUE);
-            
-            $this->load->view('plantilla', $datos);            
- 
-           
+            /*
+              $datos['encabezado'] = $this->load->view("encabezado", array(
+              'titulo' => 'Tienda online'
+              ), TRUE); */
+            $categ['categoria'] = $this->categorias_modelo->todas_categorias();
+
+            $datos['encabezado'] = $this->load->view("encabezado", $categ, TRUE);
+
+            $datos['pie'] = $this->load->view("pie", 0, TRUE);
+            $datos['cuerpo'] = $this->load->view('login', '', TRUE);
+
+            $this->load->view('plantilla', $datos);
         } else {
 
             $usuario = $this->input->post('usuario');
@@ -126,9 +121,9 @@ class usuario_controlador extends CI_Controller {
             if ($this->clientes_modelo->loginok($usuario, $password)) {
 
                 $sess_array = array('usuario' => $this->input->post('usuario'));
-                
+
                 $this->session->set_userdata('valido', $sess_array);
-                
+
                 $result = $this->clientes_modelo->infousuario($sess_array);
                 var_dump($result);
                 if ($result != false) {
@@ -138,13 +133,12 @@ class usuario_controlador extends CI_Controller {
                         'email' => $result->email,
                         'password' => $result->password
                     );
-                //TODO: Falta enviar a alguna vista 
+                    //TODO: Falta enviar a alguna vista 
                 } else {
 
                     $data = array(
                         'mensaje_error' => 'usuario incorrecto'
                     );
-                    
                 }
                 $this->load->view('login', $data, TRUE);
             }
@@ -152,25 +146,21 @@ class usuario_controlador extends CI_Controller {
     }
 
     /**
-	 * Cerrar sesión usuario
-	 */
-	public function logout() {
-	
-		//Borra los datos de la sesion
-		$sess_array = array (
-				'usuario' => ''
-		);
-		
-		$this->session->unset_userdata('valido', $sess_array);
-		
-		$data['logout'] = 'Sesión cerrada.';
-		
-		//redirect('tienda/destacados');
-		$this->$this->load->view('login', $data, TRUE);
-	}
-	
-    
-    
-    
-    
+     * Cerrar sesión usuario
+     */
+    public function logout() {
+
+        //Borra los datos de la sesion
+        $sess_array = array(
+            'usuario' => ''
+        );
+
+        $this->session->unset_userdata('valido', $sess_array);
+
+        $data['logout'] = 'Sesión cerrada.';
+
+        //redirect('tienda/destacados');
+        $this->$this->load->view('login', $data, TRUE);
+    }
+
 }

@@ -212,7 +212,7 @@ class carrito extends mi_controlador {
         $this->pdf->SetTitle("Factura");
         $this->pdf->SetLeftMargin(15);
         $this->pdf->SetRightMargin(15);
-        $this->pdf->SetFillColor(200, 200, 200); // color de relleno de la celda
+        $this->pdf->SetFillColor(2,157,116); // color de relleno de la celda
         // Se define el formato de fuente: Arial, negritas, tamaño 9
         $this->pdf->SetFont('Arial', 'B', 9);
         $this->pdf->Cell(120, 10, utf8_decode('Factura Nº: ' . $pedido_id), 0, 0, 'C');

@@ -7,7 +7,7 @@
  */
 require(__DIR__.'/mi_controlador.php');
 
-class Inicio extends mi_controlador{
+class inicio extends mi_controlador{
     
     function __construct() {
         parent::__construct();
