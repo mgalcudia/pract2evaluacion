@@ -14,8 +14,8 @@
 | path to your installation.
 |
 */
-Define(modo_local, true);
-if(modo_local)
+Define('MODO_LOCAL', true);
+if(MODO_LOCAL)
 {
     $config['base_url']= 'http://localhost/pract2evaluacion/';
 

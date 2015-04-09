@@ -126,7 +126,7 @@ class Clientes_modelo extends CI_Model {
 
     function loginok($usuario, $password)
 	{
-		$sql = "select * from cliente where usuario = '".$usuario."' AND password = '".$password."'";
+		$sql = "select * from cliente where usuario = '".$usuario."' AND password = '".$password."' AND activo = 'a'";
 
 		$query = $this->db->query($sql);
 

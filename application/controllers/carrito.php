@@ -107,8 +107,14 @@ class carrito extends mi_controlador {
         $productos_sin_existencias = $this->comprobar_stock();
         $detalle_pedido = $this->input->post('detalle_pedido');
         $productos_carrito = $this->cart->contents();
-
-        if ($total_productos == 0) { //si no ha pedidos muestra el carrito vacio
+        //si no esta logeado lo mandamos a logearse
+      if (!$this->session->userdata('usuario')&& $total_productos > 0) { 
+          
+          $this->session->set_userdata('finalizar_compra');
+          redirect(site_url('usuario_controlador/loguearse'));
+            
+    }else{
+           if($total_productos == 0) { //si no ha pedidos muestra el carrito vacio
             $datas['ruta'] = base_url('assets/fonts/carro_vacio.png');
             $cuerpo = $this->load->view('carrito_vacio', $datas, TRUE);
             $this->plantilla($cuerpo);
@@ -154,6 +160,7 @@ class carrito extends mi_controlador {
             }
         }
     }
+    }
 
     function mandar_correo($pedido_id) {
 
@@ -171,7 +178,7 @@ class carrito extends mi_controlador {
         //$this->email->to('malcudia@gmail.com');
         $this->email->to($pedido['email']);
 
-        $this->email->cc('malcudia@gmail.com');
+        //$this->email->cc('malcudia@gmail.com');
         $this->email->subject('Factura Pedido ' . $pedido_id);
         $this->email->message('Gracias por su compra.');
         if (file_exists(APPPATH . "../pdf/" . "fact_" . $pedido_id . ".pdf")) {
@@ -272,7 +279,8 @@ class carrito extends mi_controlador {
 
         //TODO: datos del cliente a modificar cuando termine el loguin,
         // mientras los genero directamente
-        $usuario['usuario'] = 'usuario2';
+       // $usuario['usuario'] = 'usuario2';  $this->session->userdata('usuario')
+        $usuario['usuario']=$this->session->userdata('usuario');
         $cliente = $this->clientes_modelo->datos_cliente($usuario);
 
         $pedido = array(

@@ -31,21 +31,10 @@ class usuario_controlador extends mi_controlador {
 
 
         if ($this->form_validation->run() == FALSE) {
-            /* $this->plantilla(
-              $this->load->view('registro_form', array('provincias' => $provincias), TRUE)); */
-            //$menuizq = $this->load->view('menuinzquierdo');
-
-            /* $datos['encabezado'] = $this->load->view("encabezado", array(
-              'titulo' => 'Tienda online'
-              ), TRUE); */
-        //    $categ['categoria'] = $this->categorias_modelo->todas_categorias();
-
-        //    $datos['encabezado'] = $this->load->view("encabezado", $categ, TRUE);
-
-        //    $datos['pie'] = $this->load->view("pie", 0, TRUE);
+           
             $cuerpo = $this->load->view('formulario_registro', $data, TRUE);
             $this->plantilla($cuerpo);
-            //$this->load->view('plantilla', $datos);
+            
         } else {
             $datos['nombre'] = $this->input->post('nombre');
             $datos['apellidos'] = $this->input->post('apellidos');
@@ -101,46 +90,37 @@ class usuario_controlador extends mi_controlador {
 
         if ($this->form_validation->run() == FALSE) {
 
-            /*
-              $datos['encabezado'] = $this->load->view("encabezado", array(
-              'titulo' => 'Tienda online'
-              ), TRUE); */
-            $categ['categoria'] = $this->categorias_modelo->todas_categorias();
+            if (!$this->session->userdata('usuario')){
+                 $cuerpo= $this->load->view('login', '', TRUE);
 
-            $datos['encabezado'] = $this->load->view("encabezado", $categ, TRUE);
-
-            $datos['pie'] = $this->load->view("pie", 0, TRUE);
-            $datos['cuerpo'] = $this->load->view('login', '', TRUE);
-
-            $this->load->view('plantilla', $datos);
-        } else {
-
+            $this->plantilla($cuerpo);
+                
+            }else{
+                redirect(site_url());
+            }
+           
+            
+        } else {            
             $usuario = $this->input->post('usuario');
             $password = $this->input->post('password');
-
-            if ($this->clientes_modelo->loginok($usuario, $password)) {
-
-                $sess_array = array('usuario' => $this->input->post('usuario'));
-
-                $this->session->set_userdata('valido', $sess_array);
-
-                $result = $this->clientes_modelo->infousuario($sess_array);
-                var_dump($result);
-                if ($result != false) {
-                    $data = array(
-                        'nombre' => $result->nombre,
-                        'usuario' => $result->usuario,
-                        'email' => $result->email,
-                        'password' => $result->password
-                    );
-                    //TODO: Falta enviar a alguna vista 
-                } else {
-
-                    $data = array(
-                        'mensaje_error' => 'usuario incorrecto'
-                    );
-                }
-                $this->load->view('login', $data, TRUE);
+           
+            if ($this->clientes_modelo->loginok($usuario, $password)==true) {                                  
+                
+                  $this->session->set_userdata('usuario', $usuario);
+                $usu= $this->session->all_userdata();
+                
+               
+                var_dump($usu);
+                    if($this->session->userdata('finalizar_compra')){                        
+                        redirect(site_url('carrito/mostrar_carro'));
+                    }else{
+                        redirect(site_url());
+                    }
+            }else{
+            $data['mensaje_error' ]= "<h1>Usuario incorrecto</h1>";
+                    
+                 $cuerpo= $this->load->view('login', $data, TRUE);
+               $this->plantilla($cuerpo); 
             }
         }
     }

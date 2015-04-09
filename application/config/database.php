@@ -56,15 +56,15 @@ $db['default']['password'] = '';
 $db['default']['database'] = 'practica2';
  
  */
-if(modo_local){
+if(MODO_LOCAL){
 $db['default']['username'] = 'root';
 $db['default']['password'] = '';
 $db['default']['database'] = 'practica2';
 }
 else 
 {
-$db['default']['username'] = '2daw1415manuel';
-$db['default']['password'] = 'garaman!29';
+$db['default']['username'] = '2daw1415_manuel';
+$db['default']['password'] = 'iaiael|42';
 $db['default']['database'] ='2daw1415_manuel01';
 }
 $db['default']['dbdriver'] = 'mysqli';

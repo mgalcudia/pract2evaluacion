@@ -19,7 +19,7 @@
     </p>
     <p>
         Contraseña:
-        <input type="password" name="password" value="<?= set_value('password') ?>">
+        <input type="password" name="password" value="">
         <?= form_error('password'); ?>
         <input type="checkbox" name="recordar"> Recordarme
     </p>
