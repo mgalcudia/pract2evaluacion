@@ -132,6 +132,26 @@ class usuario_controlador extends mi_controlador {
 
         if($this->session->userdata('usuario')){
             
+            /*
+             $cuerpo= $this->load->view('login', '', TRUE);
+               $this->plantilla($cuerpo);
+            */
+            $this->session->unset_userdata('usuario');
+             redirect(site_url());
+            
+        }else{
+            
+            redirect(site_url());
+            
+        }
+        
+    }
+    
+    
+    function panel_control(){
+        
+         if($this->session->userdata('usuario')){
+            
             $this->session->unset_userdata('usuario');
             
             
@@ -141,6 +161,19 @@ class usuario_controlador extends mi_controlador {
             
         }
         
+        
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 }
