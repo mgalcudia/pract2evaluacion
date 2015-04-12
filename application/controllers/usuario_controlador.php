@@ -128,19 +128,19 @@ class usuario_controlador extends mi_controlador {
     /**
      * Cerrar sesión usuario
      */
-    public function logout() {
+    public function salir() {
 
-        //Borra los datos de la sesion
-        $sess_array = array(
-            'usuario' => ''
-        );
-
-        $this->session->unset_userdata('valido', $sess_array);
-
-        $data['logout'] = 'Sesión cerrada.';
-
-        //redirect('tienda/destacados');
-        $this->$this->load->view('login', $data, TRUE);
+        if($this->session->userdata('usuario')){
+            
+            $this->session->unset_userdata('usuario');
+            
+            
+        }else{
+            
+            redirect(site_url());
+            
+        }
+        
     }
 
 }

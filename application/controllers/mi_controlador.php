@@ -16,7 +16,13 @@ class mi_controlador extends CI_Controller{
   function plantilla($cuerpo){
          $categ['categoria'] = $this->categorias_modelo->todas_categorias();
   
-        $encabezado= $this->load->view("encabezado",$categ , TRUE);
+         if(!$this->session->userdata('usuario')){
+              $encabezado= $this->load->view("encabezado",$categ , TRUE);
+         }else{
+             
+             $encabezado= $this->load->view("encabezado_user",$categ,TRUE);
+         }
+       
         
         $pie= $this->load->view("pie", 0, TRUE);
         
