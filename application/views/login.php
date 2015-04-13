@@ -27,5 +27,8 @@
         <a href=<?=site_url("usuario_controlador/registrousuario");?>>¿Registrarse?</a>
         
     </p>
+    <p>
+        <a href="<?=site_url('usuario_controlador/restablece_pass')?>">¿Olvidastes la contraseña?</a>
+    </p>
     <button type="submit">Entrar</button>
 </form>

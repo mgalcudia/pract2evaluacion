@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
@@ -108,7 +108,7 @@ class carrito extends mi_controlador {
         $detalle_pedido = $this->input->post('detalle_pedido');
         $productos_carrito = $this->cart->contents();
         //si no esta logeado lo mandamos a logearse
-      if (!$this->session->userdata('usuario')&& $total_productos > 0) { 
+      if (!$this->session->userdata('usuario')) { 
           
           $this->session->set_userdata('finalizar_compra');
           redirect(site_url('usuario_controlador/loguearse'));
@@ -148,7 +148,7 @@ class carrito extends mi_controlador {
                     $this->productos_model->actualiza_almacen($producto['id'], $almacen);
                     $this->linea_pedido_modelo->crear_linea_pedido($pedido);
                 }
-                // $this->cart->destroy();//vaciamos el carrito.
+                $this->cart->destroy();//vaciamos el carrito.
                 $this->generar_factura($pedido_id); //generamos el pdf de la factura
                 $this->mandar_correo($pedido_id);
             } else {
@@ -178,7 +178,7 @@ class carrito extends mi_controlador {
         //$this->email->to('malcudia@gmail.com');
         $this->email->to($pedido['email']);
 
-        //$this->email->cc('malcudia@gmail.com');
+        $this->email->cc('malcudia@gmail.com');
         $this->email->subject('Factura Pedido ' . $pedido_id);
         $this->email->message('Gracias por su compra.');
         if (file_exists(APPPATH . "../pdf/" . "fact_" . $pedido_id . ".pdf")) {
@@ -200,13 +200,12 @@ class carrito extends mi_controlador {
         $linea_pedido = $this->linea_pedido_modelo->buscar_linea_pedidos(array(
             'pedido_id' => $pedido['id']
         ));
-
-        print_r($pedido_id);
+		
         /*
          * Se crea un objeto de la clase Pdf, recuerda que la clase Pdf
          * heredó todos las variables y métodos de fpdf
          */
-        $this->pdf = new pdf();
+        $this->pdf = new pdf($pedido);
         // Agregamos una página
         $this->pdf->AddPage();
         // Define el alias para el número de página que se imprimirá en el pie
@@ -215,7 +214,7 @@ class carrito extends mi_controlador {
         /* Se define el titulo, márgenes izquierdo, derecho y
          * el color de relleno predeterminado
          */
-
+/*
         $this->pdf->SetTitle("Factura");
         $this->pdf->SetLeftMargin(15);
         $this->pdf->SetRightMargin(15);
@@ -262,6 +261,42 @@ class carrito extends mi_controlador {
 
             $this->pdf->Ln(1);
         }
+		*/
+		
+		$this->pdf->SetTitle("Factura " . $pedido['id']);
+        $this->pdf->SetLeftMargin(15);
+        $this->pdf->SetRightMargin(15);
+        $this->pdf->SetFillColor(200, 200, 200);
+
+        $this->pdf->SetFont('Arial', 'B', 9);
+
+        $x = 1;
+        $subtotal = 0;
+        $iva = 0;
+        foreach ($linea_pedido as $l) {
+			$producto = $this->productos_model->obten_producto($l['producto_id']);
+            $this->pdf->Cell(15, 7, $x++, 'BL', 0, 'C', '0');
+            $this->pdf->Cell(85, 7, utf8_decode($producto['nombre']), 'B', 0, 'C', '0');
+            $this->pdf->Cell(20, 7, $l['precio_venta'] . iconv('UTF-8', 'windows-1252', " €"), 'B', 0, 'C', '0');
+            $this->pdf->Cell(20, 7, $l['cantidad'], 'B', 0, 'C', '0');
+            $this->pdf->Cell(20, 7, $l['descuento'] . iconv('UTF-8', 'windows-1252', "%"), 'B', 0, 'C', '0');
+            $total = ($l['precio_venta'] * $l['cantidad'] - ($l['precio_venta'] * $l['cantidad'] * ($l['descuento'] / 100)));
+            $subtotal += $total;
+            $this->pdf->Cell(20, 7, round($total, 2) . iconv('UTF-8', 'windows-1252', " €"), 'BR', 0, 'C', '0');
+            $this->pdf->Ln(7);
+
+            $iva += $total * ($l['iva'] / 100);
+        }
+        $this->pdf->Ln(7);
+        $this->pdf->setX(155);
+        $this->pdf->Cell(20, 7, "Subtotal", '', 0, 'R', '1');
+        $this->pdf->Cell(20, 7, round($subtotal, 2) . iconv('UTF-8', 'windows-1252', " €"), 'B', 1, 'C', '0');
+        $this->pdf->setX(155);
+        $this->pdf->Cell(20, 7, "IVA", 'T', 0, 'R', '1');
+        $this->pdf->Cell(20, 7, round($iva, 2) . iconv('UTF-8', 'windows-1252', " €"), 'B', 1, 'C', '0');
+        $this->pdf->setX(155);
+        $this->pdf->Cell(20, 7, "Total", 'TB', 0, 'R', '1');
+        $this->pdf->Cell(20, 7, round($subtotal + $iva, 2) . iconv('UTF-8', 'windows-1252', " €"), 'B', 1, 'C', '0');
 
 
         //Podemos mostrar con I, descargar con D, o guardar con F

@@ -54,6 +54,7 @@ class usuario_controlador extends mi_controlador {
             $this->clientes_modelo->insertar_cliente($datos);
             //$this->plantilla(
             //$this->load->view('exito', '', TRUE));
+            redirect(site_url());
         }
     }
 
@@ -132,10 +133,7 @@ class usuario_controlador extends mi_controlador {
 
         if($this->session->userdata('usuario')){
             
-            /*
-             $cuerpo= $this->load->view('login', '', TRUE);
-               $this->plantilla($cuerpo);
-            */
+            
             $this->session->unset_userdata('usuario');
              redirect(site_url());
             
@@ -164,7 +162,26 @@ class usuario_controlador extends mi_controlador {
         
     }
     
+ 
     
+    function restablece_pass(){
+        
+         if($this->session->userdata('usuario')){
+            
+            
+             $cuerpo= $this->load->view('login', '', TRUE);
+               $this->plantilla($cuerpo);
+            
+            
+            
+        }else{
+            
+            redirect(site_url());
+            
+        }
+        
+        
+    }
     
     
     
