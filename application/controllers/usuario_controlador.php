@@ -31,10 +31,9 @@ class usuario_controlador extends mi_controlador {
 
 
         if ($this->form_validation->run() == FALSE) {
-           
+
             $cuerpo = $this->load->view('formulario_registro', $data, TRUE);
             $this->plantilla($cuerpo);
-            
         } else {
             $datos['nombre'] = $this->input->post('nombre');
             $datos['apellidos'] = $this->input->post('apellidos');
@@ -46,11 +45,9 @@ class usuario_controlador extends mi_controlador {
             $datos['email'] = $this->input->post('email');
             $datos['password'] = $this->input->post('password');
 
-            echo "<pre>";
-            print_r($datos);
-            echo "</pre>";
 
-            var_dump($_POST['selprovincias']);
+
+            //  var_dump($_POST['selprovincias']);
             $this->clientes_modelo->insertar_cliente($datos);
             //$this->plantilla(
             //$this->load->view('exito', '', TRUE));
@@ -63,7 +60,7 @@ class usuario_controlador extends mi_controlador {
      * @param unknown $str
      * @return boolean
      */
-    public function validarDNI($str) {
+    function validarDNI($str) {
         $str = trim($str);
         $str = str_replace("-", "", $str);
         $str = str_ireplace(" ", "", $str);
@@ -91,37 +88,34 @@ class usuario_controlador extends mi_controlador {
 
         if ($this->form_validation->run() == FALSE) {
 
-            if (!$this->session->userdata('usuario')){
-                 $cuerpo= $this->load->view('login', '', TRUE);
+            if (!$this->session->userdata('usuario')) {
+                $cuerpo = $this->load->view('login', '', TRUE);
 
-            $this->plantilla($cuerpo);
-                
-            }else{
+                $this->plantilla($cuerpo);
+            } else {
                 redirect(site_url());
             }
-           
-            
-        } else {            
+        } else {
             $usuario = $this->input->post('usuario');
             $password = $this->input->post('password');
-           
-            if ($this->clientes_modelo->loginok($usuario, $password)==true) {                                  
-                
-                  $this->session->set_userdata('usuario', $usuario);
-                $usu= $this->session->all_userdata();
-                
-               
-                var_dump($usu);
-                    if($this->session->userdata('finalizar_compra')){                        
-                        redirect(site_url('carrito/mostrar_carro'));
-                    }else{
-                        redirect(site_url());
-                    }
-            }else{
-            $data['mensaje_error' ]= "<h1>Usuario incorrecto</h1>";
-                    
-                 $cuerpo= $this->load->view('login', $data, TRUE);
-               $this->plantilla($cuerpo); 
+
+            if ($this->clientes_modelo->loginok($usuario, $password) == true) {
+
+                $this->session->set_userdata('usuario', $usuario);
+                $usu = $this->session->all_userdata();
+
+
+                // var_dump($usu);
+                if ($this->session->userdata('finalizar_compra')) {
+                    redirect(site_url('carrito/mostrar_carro'));
+                } else {
+                    redirect(site_url());
+                }
+            } else {
+                $data['mensaje_error'] = "<h1>Usuario incorrecto</h1>";
+
+                $cuerpo = $this->load->view('login', $data, TRUE);
+                $this->plantilla($cuerpo);
             }
         }
     }
@@ -131,66 +125,89 @@ class usuario_controlador extends mi_controlador {
      */
     public function salir() {
 
-        if($this->session->userdata('usuario')){
-            
-            
-            $this->session->unset_userdata('usuario');
-             redirect(site_url());
-            
-        }else{
-            
-            redirect(site_url());
-            
-        }
-        
-    }
-    
-    
-    function panel_control(){
-        
-         if($this->session->userdata('usuario')){
-            
-            $this->session->unset_userdata('usuario');
-            
-            
-        }else{
-            
-            redirect(site_url());
-            
-        }
-        
-        
-    }
-    
- 
-    
-    function restablece_pass(){
-        
-         if($this->session->userdata('usuario')){
-            
-            
-             $cuerpo= $this->load->view('login', '', TRUE);
-               $this->plantilla($cuerpo);
-            
-            
-            
-        }else{
-            
-            redirect(site_url());
-            
-        }
-        
-        
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+        if ($this->session->userdata('usuario')) {
 
+
+            $this->session->unset_userdata('usuario');
+            redirect(site_url());
+        } else {
+
+            redirect(site_url());
+        }
+    }
+
+    function panel_control() {
+
+        if ($this->session->userdata('usuario')) {
+
+            $data['usuario']= $this->session->userdata('usuario');
+            $cuerpo = $this->load->view('panel_control', $data, TRUE);
+                $this->plantilla($cuerpo);
+        } else {
+
+            redirect(site_url());
+        }
+    }
+
+    /**
+     * modifica el password de un usuario por uno predefinido
+     */
+    function restablece_pass() {
+        $this->form_validation->set_rules('email', 'email', 'trim|required|valid_email');
+
+        if ($this->form_validation->run() == FALSE) {
+
+            $cuerpo = $this->load->view('restaurar_pass', '', TRUE);
+            $this->plantilla($cuerpo);
+        } else {
+            $correo = $this->input->post('email');
+            $consulta = $this->clientes_modelo->existe_mail($correo);
+            if ($consulta) {
+
+                $usuario = $consulta['usuario'];
+                $mail['email'] = $consulta['email'];
+                $pass['password'] = md5('123456');
+                $id = $consulta['id'];
+
+                if ($this->clientes_modelo->editar_cliente($id, $pass)) {
+
+                    //mandamos el correo
+                    $this->password_mail($usuario, $mail);
+                    print_r($pass['password']);
+                    //Iniciamos la sesion del usuario y lo enviamos al panel de control
+                    if ($this->clientes_modelo->loginok($usuario, $pass['password']) == true) {
+                        $this->session->set_userdata('usuario', $usuario);
+                        redirect(site_url('usuario_controlador/panel_control'));
+                    }
+                } else {
+                    //se produce un error
+                    redirect(site_url('usuario_controlador/restablece_pass'));
+                }
+            } else {
+                redirect(site_url('usuario_controlador/restablece_pass'));
+            }
+        }
+    }
+
+    function password_mail($usuario, $mail) {
+
+        // Utilizando smtp
+        $config['protocol'] = 'smtp';
+        $config['smtp_host'] = 'mail.iessansebastian.com';
+        $config['smtp_user'] = 'aula4@iessansebastian.com';
+        $config['smtp_pass'] = 'daw2alumno';
+
+        $this->email->initialize($config);
+
+        $this->email->from('aula4@iessansebastian.com', 'Tienda Virtual');
+        $this->email->to($mail['email']);
+        $this->email->subject('Nuevo password');
+        $this->email->message("<p>Usuario:<font color='red'>" . $usuario .
+                "</font></p><p>Nuevo password:<font color='red'> 123456</font></p>");
+        return $this->email->send();
+    }
+
+    /*
+     * fin del controlador
+     */
 }

@@ -174,7 +174,7 @@ class carrito extends mi_controlador {
 
         $this->email->initialize($config);
 
-        $this->email->from('aula4@iessansebastian.com', 'Prueba Automática desde CI');
+        $this->email->from('aula4@iessansebastian.com', 'Tienda Virtual');
         //$this->email->to('malcudia@gmail.com');
         $this->email->to($pedido['email']);
 

@@ -119,7 +119,14 @@ class Clientes_modelo extends CI_Model {
      */
     function editar_cliente($id, $datos){
         $this->db->where('id', $id);
-        $this->db->update('cliente', $datos);
+        
+        if($this->db->update('cliente', $datos)){
+            return true;
+            
+        }  else {
+        
+            return false;
+        }
     }
 
 
@@ -127,7 +134,7 @@ class Clientes_modelo extends CI_Model {
     function loginok($usuario, $password)
 	{
 		$sql = "select * from cliente where usuario = '".$usuario."' AND password = '".$password."' AND activo = 'a'";
-
+                print_r($sql);
 		$query = $this->db->query($sql);
 
 		if($query->num_rows() == 0)
@@ -161,7 +168,24 @@ class Clientes_modelo extends CI_Model {
 		}
 	}
 
+/**
+     * Comprobar si el usuario existe por correo
+     */
 
+    function existe_mail($data){
+        var_dump($data);
+       $this->db->where('email',$data);
+       $consulta= $this->db->get('cliente');
+
+       if($consulta->result()){
+
+           return $consulta->row_array();
+
+       }else{
+           return false;
+       }
+
+    }
 
 
 
