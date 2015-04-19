@@ -5,6 +5,7 @@
 		<label>Nombre</label>
 		
 			<input type="text" name="nombre" value="<?php echo set_value('nombre'); ?>"/>
+                        
 			<?php echo form_error('nombre'); ?>
 </p>
 <p>

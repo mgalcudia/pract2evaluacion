@@ -21,7 +21,7 @@
         Contraseña:
         <input type="password" name="password" value="">
         <?= form_error('password'); ?>
-        <input type="checkbox" name="recordar"> Recordarme
+       
     </p>
     <p>
         <a href=<?=site_url("usuario_controlador/registrousuario");?>>¿Registrarse?</a>

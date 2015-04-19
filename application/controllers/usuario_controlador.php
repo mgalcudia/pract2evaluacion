@@ -136,6 +136,9 @@ class usuario_controlador extends mi_controlador {
         }
     }
 
+    /**
+     * dirige al panel donde el usuario podra modificar su perfil
+     */
     function panel_control() {
 
         if ($this->session->userdata('usuario')) {
@@ -189,6 +192,13 @@ class usuario_controlador extends mi_controlador {
         }
     }
 
+    
+    /**
+     * envia al usuario un correo informandole del la modificacion de su contraseña.
+     * @param type $usuario
+     * @param type $mail
+     * @return type
+     */
     function password_mail($usuario, $mail) {
 
         // Utilizando smtp
@@ -196,16 +206,65 @@ class usuario_controlador extends mi_controlador {
         $config['smtp_host'] = 'mail.iessansebastian.com';
         $config['smtp_user'] = 'aula4@iessansebastian.com';
         $config['smtp_pass'] = 'daw2alumno';
+        $config['mailtype'] = 'html';
 
+ 
         $this->email->initialize($config);
 
         $this->email->from('aula4@iessansebastian.com', 'Tienda Virtual');
         $this->email->to($mail['email']);
         $this->email->subject('Nuevo password');
-        $this->email->message("<p>Usuario:<font color='red'>" . $usuario .
-                "</font></p><p>Nuevo password:<font color='red'> 123456</font></p>");
+        $this->email->message("<html><body><h2>Modifique la contraseña a una de su gusto</h2><p>Usuario:<font color='red'>" . $usuario .
+                "</font></p><p>Nuevo password:<font color='red'> 123456</font></p></body></html>");
         return $this->email->send();
     }
+
+    
+    
+    function editar(){
+        $usuario= $this->session->userdata('usuario');
+        
+        //reglas de validacion
+        $this->form_validation->set_rules('nombre', 'nombre', 'trim|required');
+        $this->form_validation->set_rules('password', 'password', 'trim|required|matches[pConfirm]|md5');
+        $this->form_validation->set_rules('email', 'email', 'trim|required|valid_email');
+        $this->form_validation->set_rules('apellidos', 'apellidos', 'trim|required');
+        $this->form_validation->set_rules('dni', 'dni', 'trim|required|exact_length[9]|callback_validarDNI');
+        $this->form_validation->set_rules('direccion', 'direccion', 'trim|required');
+        $this->form_validation->set_rules('codpostal', 'código postal', 'trim|required|numeric|exact_length[5]');
+        $this->form_validation->set_rules('pConfirm', 'confirma contraseña', 'trim|required');
+
+        //da formato a los errores
+        $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
+        
+        $data['usuario']=$usuario;
+         $data['datos']=  $this->clientes_modelo-> buscar_clientes($data)[0];
+         $data['provincias'] = $this->provincias_modelo->Listar_Provincias();         
+           
+            print_r($data['datos']);
+            if ($this->form_validation->run() == FALSE) {
+
+            $cuerpo = $this->load->view('formulario_modificar', $data, TRUE);
+            $this->plantilla($cuerpo);
+        }else{
+            $id=$this->input->post('id');
+            $datos['nombre'] = $this->input->post('nombre');
+            $datos['apellidos'] = $this->input->post('apellidos');
+            $datos['dni'] = $this->input->post('dni');
+            $datos['direccion'] = $this->input->post('direccion');
+            $datos['codpostal'] = $this->input->post('codpostal');
+            $datos['provincia_id'] = $this->input->post('selprovincias');
+            $datos['usuario'] = $this->input->post('usuario');
+            $datos['email'] = $this->input->post('email');
+            $datos['password'] = $this->input->post('password');
+            
+            
+            $this->clientes_modelo->editar_cliente($id, $datos);
+        }
+    }
+
+
+
 
     /*
      * fin del controlador

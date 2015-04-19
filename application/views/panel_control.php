@@ -8,7 +8,7 @@
         </li>
 
         <li>
-            <a href="<?= site_url("usuario_controlador/dar_baja"); ?>">Darse de baja</a>
+            <a href="<?= site_url("usuario_controlador/dar_baja");?>">Darse de baja</a>
         </li>
 
         <li>
