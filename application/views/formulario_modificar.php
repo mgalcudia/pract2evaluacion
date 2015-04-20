@@ -1,6 +1,6 @@
 <form method="post" action="<?=base_url('index.php/usuario_controlador/editar')?>">
 
-    <input type="hidden" name="id" value="<?=$datos['nombre']?>">
+    <input type="hidden" name="id" value="<?=$datos['id']?>">
 <legend>Modificar datos usuario<legend>	
         <br>
         

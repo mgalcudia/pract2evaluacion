@@ -241,12 +241,13 @@ class usuario_controlador extends mi_controlador {
          $data['datos']=  $this->clientes_modelo-> buscar_clientes($data)[0];
          $data['provincias'] = $this->provincias_modelo->Listar_Provincias();         
            
-            print_r($data['datos']);
+            //print_r($data['datos']);
             if ($this->form_validation->run() == FALSE) {
 
             $cuerpo = $this->load->view('formulario_modificar', $data, TRUE);
             $this->plantilla($cuerpo);
         }else{
+            
             $id=$this->input->post('id');
             $datos['nombre'] = $this->input->post('nombre');
             $datos['apellidos'] = $this->input->post('apellidos');
@@ -259,11 +260,54 @@ class usuario_controlador extends mi_controlador {
             $datos['password'] = $this->input->post('password');
             
             
-            $this->clientes_modelo->editar_cliente($id, $datos);
+           
+            if($this->clientes_modelo->editar_cliente($id, $datos)){
+               redirect(site_url('usuario_controlador/panel_control')); 
+               
+            }else{
+                
+                redirect(site_url('usuario_controlador/editar'));
+                
+            }
+           
+            
         }
     }
 
 
+    
+    function dar_baja(){
+        
+         if ($this->session->userdata('usuario')) {
+             $usuario['usuario']= $this->session->userdata('usuario');
+             if($this->input->post('baja')=="Si"){
+                // print_r($this->clientes_modelo->buscar_clientes($usuario));
+                
+                $id=($this->clientes_modelo->buscar_clientes($usuario)[0]['id']);
+                
+                var_dump($this->clientes_modelo->baja_cliente($id));
+              
+                
+             }elseif ($this->input->post('baja')=="No") {
+                 redirect(site_url('usuario_controlador/panel_control'));
+            }else{
+                
+                $data['usuario']= $this->session->userdata('usuario');
+                $cuerpo = $this->load->view('dar_baja', $data, TRUE);
+                $this->plantilla($cuerpo);
+                
+            }
+            
+        } else {
+
+            redirect(site_url());
+        }
+        
+        
+        
+        
+        
+    }
 
 
     /*

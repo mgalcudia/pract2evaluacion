@@ -106,7 +106,11 @@ class Clientes_modelo extends CI_Model {
             'activo' => 'b'
         );
         $this->db->where('id', $id);
-        $this->db->update('cliente', $datos);
+        if ($this->db->update('cliente', $datos)){
+            return true;
+        }  else {
+            return false;
+        }
     }
 
 
