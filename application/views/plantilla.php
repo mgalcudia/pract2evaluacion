@@ -9,6 +9,7 @@
 	<div class="contenedor">
 		<?=$encabezado?>
 		<div class="cuerpo">
+                        <?= $mensaje?>
 			<?=$cuerpo?>
 		</div>
 		<?=$pie?>

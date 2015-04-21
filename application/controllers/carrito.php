@@ -43,7 +43,7 @@ class carrito extends mi_controlador {
             'precio_final' => $this->calcular_precio($producto['precioVenta'], $producto['descuento'])
         );
         $this->cart->insert($datos);
-        //$this->session->set_flashdata('agregado', 'El producto fue agregado correctamente');
+        $this->session->set_flashdata('informe', $datos['name'].' fue agregado correctamente');
 
         redirect($this->input->post('url'));
         //var_dump($producto);
@@ -263,7 +263,7 @@ class carrito extends mi_controlador {
         }
 		*/
 		
-		$this->pdf->SetTitle("Factura " . $pedido['id']);
+        $this->pdf->SetTitle("Factura " . $pedido['id']);
         $this->pdf->SetLeftMargin(15);
         $this->pdf->SetRightMargin(15);
         $this->pdf->SetFillColor(200, 200, 200);

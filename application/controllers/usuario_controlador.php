@@ -10,6 +10,9 @@ class usuario_controlador extends mi_controlador {
         parent::__construct();
     }
 
+    /**
+     * funcion para registrar usuarios
+     */
     function registrousuario() {
 
         //obtener provincias para listarlas
@@ -102,9 +105,7 @@ class usuario_controlador extends mi_controlador {
             if ($this->clientes_modelo->loginok($usuario, $password) == true) {
 
                 $this->session->set_userdata('usuario', $usuario);
-                $usu = $this->session->all_userdata();
-
-
+                //$usu = $this->session->all_userdata();
                 // var_dump($usu);
                 if ($this->session->userdata('finalizar_compra')) {
                     redirect(site_url('carrito/mostrar_carro'));
@@ -127,11 +128,11 @@ class usuario_controlador extends mi_controlador {
 
         if ($this->session->userdata('usuario')) {
 
-
+            $this->session->set_flashdata('informe', 'Sesión cerrada');
             $this->session->unset_userdata('usuario');
             redirect(site_url());
         } else {
-
+            $this->session->set_flashdata('informe', 'No había sesión iniciada');
             redirect(site_url());
         }
     }
@@ -184,9 +185,11 @@ class usuario_controlador extends mi_controlador {
                     }
                 } else {
                     //se produce un error
+                    $this->session->set_flashdata('informe', 'Se ha producido un error al restaurar el password');
                     redirect(site_url('usuario_controlador/restablece_pass'));
                 }
             } else {
+                $this->session->set_flashdata('informe', 'El correo electronico no está registrado');
                 redirect(site_url('usuario_controlador/restablece_pass'));
             }
         }
@@ -265,7 +268,7 @@ class usuario_controlador extends mi_controlador {
                redirect(site_url('usuario_controlador/panel_control')); 
                
             }else{
-                
+                $this->session->set_flashdata('informe', 'Error al editar');
                 redirect(site_url('usuario_controlador/editar'));
                 
             }
@@ -285,8 +288,14 @@ class usuario_controlador extends mi_controlador {
                 
                 $id=($this->clientes_modelo->buscar_clientes($usuario)[0]['id']);
                 
-                var_dump($this->clientes_modelo->baja_cliente($id));
-              
+                
+              if($this->clientes_modelo->baja_cliente($id)){
+                  
+                  $this->session->set_flashdata('informe', 'Cliente dado de baja');
+              }else{
+                  $this->session->set_flashdata('informe', 'Error al dar de baja');
+              }
+                  
                 
              }elseif ($this->input->post('baja')=="No") {
                  redirect(site_url('usuario_controlador/panel_control'));
@@ -299,7 +308,7 @@ class usuario_controlador extends mi_controlador {
             }
             
         } else {
-
+            $this->session->set_flashdata('informe', 'No ha iniciado ninguna sesión');
             redirect(site_url());
         }
         

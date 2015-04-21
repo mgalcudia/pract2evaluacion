@@ -22,13 +22,24 @@ class mi_controlador extends CI_Controller{
              
              $encabezado= $this->load->view("encabezado_user",$categ,TRUE);
          }
-       
+         $pie= $this->load->view("pie", 0, TRUE);
+         if($this->session->flashdata('informe')){
+             
+             $mens['mensaje']= $this->session->flashdata('informe');
+         }else{
+             
+             $mens['mensaje']="";
+         }
+      
+            $mensaje= $this->load->view("mensaje",$mens,TRUE);
+         
         
-        $pie= $this->load->view("pie", 0, TRUE);
+        
         
         //Creo una plantilla con los apartados a mostrar
         $this->load->view('plantilla', array(
             'encabezado' => $encabezado,
+            'mensaje'=> $mensaje,
             'cuerpo' => $cuerpo,
             'pie' => $pie
             ));
