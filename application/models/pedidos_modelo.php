@@ -50,6 +50,21 @@ class pedidos_modelo extends CI_Model {
         return $query->row_array();
     }
     
+    
+    
+    function usuario_pedidos($usuario){
+        
+        $this->db->where('cliente_id',$usuario);
+        if($resultado = $this->db->get('pedido')){
+            return $resultado->result();
+            
+        }  else {
+            return false;
+        }
+        
+        
+        
+    }
 }
 
 

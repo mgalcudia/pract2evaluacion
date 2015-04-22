@@ -222,8 +222,10 @@ class usuario_controlador extends mi_controlador {
         return $this->email->send();
     }
 
-    
-    
+
+    /**
+     * Edita los datos de un usuario
+     */
     function editar(){
         $usuario= $this->session->userdata('usuario');
         
@@ -311,12 +313,24 @@ class usuario_controlador extends mi_controlador {
             $this->session->set_flashdata('informe', 'No ha iniciado ninguna sesión');
             redirect(site_url());
         }
-        
-        
-        
+                
+    }
+
+
+    
+    function pedidos_anteriores(){
+        $usuario['usuario']= $this->session->userdata('usuario');
+       
+        $id=$this->clientes_modelo->datos_cliente($usuario);
+        var_dump($id['id']);
+        var_dump($this->pedidos_modelo->usuario_pedidos($id['id']));
         
         
     }
+
+
+
+
 
 
     /*
