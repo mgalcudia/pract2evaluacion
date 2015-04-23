@@ -18,7 +18,7 @@ class Provincias_modelo extends CI_Model {
      * @param type id de la provincia
      * @return nombre de la provincia
      */
-    public function Nombre_Provincia($id) {
+    function Nombre_Provincia($id) {
 
         $this->db->select("nombre");
         $this->db->where("id",$id);

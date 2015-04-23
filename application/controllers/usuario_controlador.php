@@ -322,14 +322,43 @@ class usuario_controlador extends mi_controlador {
         $usuario['usuario']= $this->session->userdata('usuario');
        
         $id=$this->clientes_modelo->datos_cliente($usuario);
-        var_dump($id['id']);
-        var_dump($this->pedidos_modelo->usuario_pedidos($id['id']));
+       // var_dump($id);
+       $pedidos= $this->pedidos_modelo->usuario_pedidos($id['id']);
+     
+        if($pedidos){
+            
+                $data['pedidos']= $pedidos;
+                var_dump($pedidos[0]);
+                $cuerpo = $this->load->view('historico_pedido', $data, TRUE);
+                $this->plantilla($cuerpo);
+            
+        }else{
+            $this->session->set_flashdata('informe', 'No existe ningún pedido almacenado');
+            
+        }
+       
+       
         
         
     }
 
 
-
+    function cancelar_pedido($id,$estado){
+        
+        if($estado=='p'){
+            
+            
+        }else{
+            
+            $this->session->set_flashdata('informe', 'No puede cancelar el pedido, ya ha sido tramitado');
+            redirect(site_url('usuario_controlador/pedidos_anteriores'));
+            
+        }
+        
+        
+        
+        
+    }
 
 
 
