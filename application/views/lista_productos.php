@@ -24,7 +24,7 @@
                           <input type="hidden" name="descuento" value="<?=$producto['descuento']?>"/>
                           <input type="hidden" name="url" value="<?= current_url() ?>" />
                           
-                          <button type="submit" class="boton verde centrado" onclick="window.open('añadido.php', 'Añadido', 'width=200,height=200')">
+                          <button type="submit" class="boton verde centrado">
 					Añadir al carrito 
 				</button>
                         </form>

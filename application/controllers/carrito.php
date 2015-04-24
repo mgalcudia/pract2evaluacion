@@ -151,6 +151,8 @@ class carrito extends mi_controlador {
                 $this->cart->destroy();//vaciamos el carrito.
                 $this->generar_factura($pedido_id); //generamos el pdf de la factura
                 $this->mandar_correo($pedido_id);
+                 $this->session->set_flashdata('informe', 'Compra realizada');
+                    redirect(site_url());
             } else {
 
                 $datas['productos'] = $productos_carrito;

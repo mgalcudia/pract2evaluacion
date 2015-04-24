@@ -317,37 +317,55 @@ class usuario_controlador extends mi_controlador {
     }
 
 
-    
+    /**
+     *  Muestra el historico de los pedidos
+     */
     function pedidos_anteriores(){
         $usuario['usuario']= $this->session->userdata('usuario');
        
         $id=$this->clientes_modelo->datos_cliente($usuario);
-       // var_dump($id);
+       
        $pedidos= $this->pedidos_modelo->usuario_pedidos($id['id']);
      
         if($pedidos){
             
                 $data['pedidos']= $pedidos;
-                var_dump($pedidos[0]);
+                print_r($pedidos[0]);
                 $cuerpo = $this->load->view('historico_pedido', $data, TRUE);
                 $this->plantilla($cuerpo);
             
         }else{
             $this->session->set_flashdata('informe', 'No existe ningún pedido almacenado');
+            redirect(site_url('usuario_controlador/panel_control'));
             
         }
        
-       
-        
-        
     }
 
-
+    /**
+     * Cancela un pedido en tramitacion, estado ' p '
+     * @param type $id
+     * @param string $estado
+     */
     function cancelar_pedido($id,$estado){
         
         if($estado=='p'){
-            
-            
+            $estado= array('estado'=>'c');
+            if($this->pedidos_modelo->modificar_estado_pedido($id,$estado)){
+            $this->session->set_flashdata('informe', 'El pedido ha sido cancelado');
+            redirect(site_url('usuario_controlador/pedidos_anteriores'));
+                
+            }else{
+            $this->session->set_flashdata('informe', 'Error al intentar modificar el estado, vuelva a intentarlo');
+            redirect(site_url('usuario_controlador/pedidos_anteriores'));
+                
+            }            
+        }elseif($estado=='e'){
+            $this->session->set_flashdata('informe', 'No puede cancelar el pedido, consta como entregado');
+            redirect(site_url('usuario_controlador/pedidos_anteriores'));
+        }elseif($estado=='c'){
+            $this->session->set_flashdata('informe', 'No puede cancelar el pedido, ya esta cancelado');
+            redirect(site_url('usuario_controlador/pedidos_anteriores'));
         }else{
             
             $this->session->set_flashdata('informe', 'No puede cancelar el pedido, ya ha sido tramitado');
@@ -355,12 +373,18 @@ class usuario_controlador extends mi_controlador {
             
         }
         
+    }
+
+
+    
+    function detalle_pedido($id){
+        
+        //print_r($id);
+        $this->pedidos_modelo->lista_productos_pedido($id);
         
         
         
     }
-
-
 
     /*
      * fin del controlador
