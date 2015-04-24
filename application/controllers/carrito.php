@@ -349,7 +349,7 @@ class carrito extends mi_controlador {
 
 
         foreach ($productos as $producto) {
-            if ($producto['qty'] > $this->productos_model->coprobar_stock($producto['id'])) { //No hay stock suficiente
+            if ($producto['qty'] > $this->productos_model->comprobar_stock($producto['id'])) { //No hay stock suficiente
                 array_push($articulos, $producto['name']);
             }
         }

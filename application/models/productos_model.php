@@ -121,7 +121,7 @@ class productos_model extends CI_Model {
         return $query->row_array();
     }
 
-    function coprobar_stock($id){        
+    function comprobar_stock($id){        
          $this->db->select('cantidad');
         $this->db->where('id', $id);
         return $this->db->get('producto')->row_array()['cantidad'];

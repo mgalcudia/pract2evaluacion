@@ -379,8 +379,16 @@ class usuario_controlador extends mi_controlador {
     
     function detalle_pedido($id){
         
-        //print_r($id);
-        $this->pedidos_modelo->lista_productos_pedido($id);
+       
+       $linea_pedido= $this->pedidos_modelo->lista_productos_pedido($id);
+      $producto= [];
+       foreach ($linea_pedido as $value =>$clave) {         
+         $nombre_producto= $this->productos_model->obten_producto($clave['producto_id']);
+         $clave['nombre']= $nombre_producto['nombre'];        
+        array_push($producto, $clave);            
+       }
+       print_r($producto);
+       
         
         
         

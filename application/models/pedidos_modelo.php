@@ -94,8 +94,8 @@ class pedidos_modelo extends CI_Model {
             $r->iva = $producto->iva;
         }*/
         
-     print_r($resultado->result_array());
-        //return $resultado->result();
+   //  print_r($resultado->result_array());
+        return $resultado->result_array();
     }
      
      
