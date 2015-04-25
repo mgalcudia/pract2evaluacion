@@ -53,5 +53,14 @@ class productos extends mi_controlador {
          $this->plantilla($cuerpo);
     }
     
+    function muestra_producto($id){
+        
+       $producto= $this->productos_model->obten_producto($id);
+        $cuerpo= $this->load->view('lista_productos', $datas, TRUE);
+         $this->plantilla($cuerpo);
+        
+    }
+    
+    
 
 }

@@ -1,7 +1,7 @@
 <h1><?=isset($titulo)? $titulo: ''?></h1>
 <hr>
-<div class="paginador">
-	<?=$paginador?>  
+<div class="paginador">	 
+    <?=(isset($paginador))?$paginador:''?>
 </div>
 <div class="lista_productos">
 	<?php foreach ($productos as $producto) :?>

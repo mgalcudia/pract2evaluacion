@@ -108,7 +108,6 @@ class productos_model extends CI_Model {
         $where = '(fec_inicio_desta < ' . date("Y-m-d") . ' AND fec_fin_desta > ' . date("Y-m-d") . ') OR ';
         $where.= '(fec_inicio_desta is null AND fec_fin_desta is null AND destacado like "1")';
         $this->db->where($where);
-
         $resultado = $this->db->get();
         return $resultado->num_rows();
     }
