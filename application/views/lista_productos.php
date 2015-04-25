@@ -5,6 +5,7 @@
 </div>
 <div class="lista_productos">
 	<?php foreach ($productos as $producto) :?>
+   
 		<div class="producto">
 			<div class="prod-contenido">
 				<img class="imagen" src="<?=base_url($producto['imagen'])?>">

@@ -48,6 +48,7 @@ class productos extends mi_controlador {
         $tittle = $this->categorias_modelo->nombre_categoria($categoria);
         $datas['titulo'] = "<h1>" . $tittle . "</h1>";
         $datas['productos'] = $productos;
+        print_r($productos);
         $categ['categoria'] = $this->categorias_modelo->todas_categorias();
         $cuerpo= $this->load->view('lista_productos', $datas, TRUE);
          $this->plantilla($cuerpo);
@@ -55,7 +56,10 @@ class productos extends mi_controlador {
     
     function muestra_producto($id){
         
-       $producto= $this->productos_model->obten_producto($id);
+       $producto['0']= $this->productos_model->obten_producto($id);
+       //print_r($producto);
+       $datas['productos']=$producto;
+      
         $cuerpo= $this->load->view('lista_productos', $datas, TRUE);
          $this->plantilla($cuerpo);
         
