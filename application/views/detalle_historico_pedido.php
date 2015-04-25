@@ -1,25 +1,22 @@
 
 <h1>Detalle del pedido</h1>
-
-<div class="tabla_carrito">
-  <table>
+  <table class="tabla_carrito">
         <tr>
-            <td>Nombre Producto</td>
-            <td>Cantidad</td>
-            <td>Precio</td>
+            <th>Nombre Producto</th>
+            <th>Cantidad</th>
+            <th>Precio</th>
+            <th><a href="#" onmouseover="return overlib('e para pedidos entregados, p para pedidos pendientes\n\
+         y c para pedidos cancelados');
+               " onmouseout="return nd();">Estado</a></th>
         </tr>
         <?php foreach ($productos as $producto): ?>
             <tr>
-                <td><?= $producto['name'] ?></td>
-                <td><?= $producto['qty'] ?></td>
-                <td><?= $producto['price'] ?></td>
+                <td><?=  $producto['nombre']?></td>
+                <td><?=  $producto['cantidad']?></td>
+                <td><?=  $producto['precio_venta']?></td>   
+                <td><?=  $producto['estado']?></td>
             </tr>
         <?php endforeach; ?>
-        <tr>
-            <td></td>
-            <td>Total:</td>
-            <td><?= $total ?></td>
-        </tr>   
+       
     </table>
-<div>
- <p><?= anchor("usuario_controlador/pedidos_anteriores", "Volver atrás") ?></p>
+<p><?= anchor("usuario_controlador/pedidos_anteriores", "Volver atrás") ?></p>

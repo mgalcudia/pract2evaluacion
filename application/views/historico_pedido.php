@@ -32,6 +32,5 @@
             <td><?= anchor("usuario_controlador/cancelar_pedido/{$valor['id']}/{$valor['estado']}", "Cancelar pedido") ?></td>
         </tr>
     <?php endforeach; ?>
-
-
 </table>
+<p><?= anchor("usuario_controlador/panel_control", "Volver atrás")?></p>

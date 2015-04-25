@@ -330,7 +330,7 @@ class usuario_controlador extends mi_controlador {
         if($pedidos){
             
                 $data['pedidos']= $pedidos;
-                print_r($pedidos[0]);
+                //print_r($pedidos[0]);
                 $cuerpo = $this->load->view('historico_pedido', $data, TRUE);
                 $this->plantilla($cuerpo);
             
@@ -376,20 +376,28 @@ class usuario_controlador extends mi_controlador {
     }
 
 
-    
+    /**
+     * recibiendo como parametro el id del pedido, muestra un resumen del contenido del pedido
+     * @param type $id
+     */
     function detalle_pedido($id){
         
        
        $linea_pedido= $this->pedidos_modelo->lista_productos_pedido($id);
+       $estado= $this->pedidos_modelo->obten_pedido($id);
+      
       $producto= [];
        foreach ($linea_pedido as $value =>$clave) {         
          $nombre_producto= $this->productos_model->obten_producto($clave['producto_id']);
-         $clave['nombre']= $nombre_producto['nombre'];        
+         $clave['nombre']= $nombre_producto['nombre'];  
+         $clave['estado']=$estado['estado'];
         array_push($producto, $clave);            
-       }
-       print_r($producto);
+       }     
        
+      $data['productos']=$producto;       
         
+                $cuerpo = $this->load->view('detalle_historico_pedido', $data, TRUE);
+                $this->plantilla($cuerpo);
         
         
     }
