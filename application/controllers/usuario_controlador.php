@@ -1,7 +1,4 @@
-<?php
-
-if (!defined('BASEPATH'))
-    exit('No direct script access allowed');
+<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 require(__DIR__ . '/mi_controlador.php');
 
 class usuario_controlador extends mi_controlador {
@@ -15,8 +12,7 @@ class usuario_controlador extends mi_controlador {
      */
     function registrousuario() {
 
-        //obtener provincias para listarlas
-        // $provincia= $this->provincias_modelo->Listar_Provincias();
+        //obtener provincias para listarlas       
         $data['provincias'] = $this->provincias_modelo->Listar_Provincias();
         //reglas de validacion
 
@@ -50,10 +46,9 @@ class usuario_controlador extends mi_controlador {
 
 
 
-            //  var_dump($_POST['selprovincias']);
+            
             $this->clientes_modelo->insertar_cliente($datos);
-            //$this->plantilla(
-            //$this->load->view('exito', '', TRUE));
+            
             redirect(site_url());
         }
     }
@@ -88,6 +83,8 @@ class usuario_controlador extends mi_controlador {
 
         $this->form_validation->set_rules('usuario', 'usuario', 'trim|required|min_length[3]|max_length[25]|xss_clean');
         $this->form_validation->set_rules('password', 'password', 'trim|required|md5');
+        //da formato a los errores
+        $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
 
         if ($this->form_validation->run() == FALSE) {
 
@@ -105,8 +102,7 @@ class usuario_controlador extends mi_controlador {
             if ($this->clientes_modelo->loginok($usuario, $password) == true) {
 
                 $this->session->set_userdata('usuario', $usuario);
-                //$usu = $this->session->all_userdata();
-                // var_dump($usu);
+;
                 if ($this->session->userdata('finalizar_compra')) {
                     redirect(site_url('carrito/mostrar_carro'));
                 } else {
@@ -148,7 +144,7 @@ class usuario_controlador extends mi_controlador {
             $cuerpo = $this->load->view('panel_control', $data, TRUE);
                 $this->plantilla($cuerpo);
         } else {
-
+            $this->session->set_flashdata('informe', 'No había sesión iniciada');
             redirect(site_url());
         }
     }
@@ -158,6 +154,8 @@ class usuario_controlador extends mi_controlador {
      */
     function restablece_pass() {
         $this->form_validation->set_rules('email', 'email', 'trim|required|valid_email');
+                //da formato a los errores
+        $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
 
         if ($this->form_validation->run() == FALSE) {
 
@@ -325,8 +323,19 @@ class usuario_controlador extends mi_controlador {
        
         $id=$this->clientes_modelo->datos_cliente($usuario);
        
-       $pedidos= $this->pedidos_modelo->usuario_pedidos($id['id']);
-     
+       $historico= $this->pedidos_modelo->usuario_pedidos($id['id']);
+       $pedidos=[];
+       
+       
+
+        foreach ($historico as $pedido) {
+
+           $fecha_pedido =  new DateTime($pedido['fecha_pedido']);
+           $pedido['fecha_pedido']=$fecha_pedido->format("d-m-Y");
+           
+           array_push($pedidos, $pedido);
+        }
+       //print_r($pedidos);
         if($pedidos){
             
                 $data['pedidos']= $pedidos;
@@ -402,7 +411,5 @@ class usuario_controlador extends mi_controlador {
         
     }
 
-    /*
-     * fin del controlador
-     */
+
 }

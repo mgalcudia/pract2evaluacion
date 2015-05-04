@@ -6,11 +6,10 @@
  * and open the template in the editor.
  */
 
-class Clientes_modelo extends CI_Model {
+class clientes_modelo extends CI_Model {
 
     function __construct() {
-        parent::__construct();
-        $this->load->database();
+        parent::__construct();        
     }
 
     /**

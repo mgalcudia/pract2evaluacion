@@ -1,7 +1,5 @@
-﻿<?php
 
-if (!defined('BASEPATH'))
-    exit('No direct script access allowed');
+<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 require(__DIR__ . '/mi_controlador.php');
 
@@ -216,54 +214,6 @@ class carrito extends mi_controlador {
         /* Se define el titulo, márgenes izquierdo, derecho y
          * el color de relleno predeterminado
          */
-/*
-        $this->pdf->SetTitle("Factura");
-        $this->pdf->SetLeftMargin(15);
-        $this->pdf->SetRightMargin(15);
-        $this->pdf->SetFillColor(2,157,116); // color de relleno de la celda
-        // Se define el formato de fuente: Arial, negritas, tamaño 9
-        $this->pdf->SetFont('Arial', 'B', 9);
-        $this->pdf->Cell(120, 10, utf8_decode('Factura Nº: ' . $pedido_id), 0, 0, 'C');
-        $this->pdf->Ln(5);
-        $this->pdf->Cell(30);
-        $this->pdf->Cell(120, 10, 'Datos personales', 0, 0, 'C');
-        $this->pdf->Ln(12);
-
-        // $this->pdf->Cell(Ancho, Alto,texto,borde,posición,alineación,relleno);
-
-        foreach ($pedido as $campo => $valor) {
-            $this->pdf->Cell(30);
-            $this->pdf->Cell(38, 7, utf8_decode($campo), 'TBL', 0, 'L', '1');
-            $this->pdf->Cell(50, 7, utf8_decode($valor), 'TBLR', 0, 'L', '1');
-            $this->pdf->Ln(7);
-        }
-
-
-        $this->pdf->Ln(7);
-
-        $this->pdf->Cell(30);
-        $this->pdf->Cell(120, 10, 'Productos comprados', 0, 0, 'C');
-        $this->pdf->Ln(12);
-
-
-        foreach ($linea_pedido as $numero => $linea) {
-            $id_producto = $linea['producto_id'];
-            $producto = $this->productos_model->obten_producto($id_producto);
-
-            $linea_pedido[$numero]['nombre_producto'] = utf8_decode($producto['nombre']);
-        }
-        // print_r($articulo);
-        foreach ($linea_pedido as $linea) {
-            foreach ($linea as $key => $value) {
-                $this->pdf->Cell(30);
-                $this->pdf->Cell(38, 7, $key, 'TBL', 0, 'L', '0');
-                $this->pdf->Cell(50, 7, $value, 'TBLR', 0, 'L', '0');
-                $this->pdf->Ln(7);
-            }
-
-            $this->pdf->Ln(1);
-        }
-		*/
 		
         $this->pdf->SetTitle("Factura " . $pedido['id']);
         $this->pdf->SetLeftMargin(15);

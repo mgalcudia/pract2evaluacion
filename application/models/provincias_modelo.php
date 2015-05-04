@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-class Provincias_modelo extends CI_Model {
+class provincias_modelo extends CI_Model {
 
      function __construct() {
         parent::__construct();
@@ -18,7 +18,7 @@ class Provincias_modelo extends CI_Model {
      * @param type id de la provincia
      * @return nombre de la provincia
      */
-    function Nombre_Provincia($id) {
+    function nombre_provincia($id) {
 
         $this->db->select("nombre");
         $this->db->where("id",$id);
@@ -31,7 +31,7 @@ class Provincias_modelo extends CI_Model {
      * 
      * @return array con las provincias y sus Id
      */
-    public function Listar_ProvinciasTodo(){
+    public function listar_provinciasTodo(){
         
        $resultado= $this->db->get("provincia");
         
@@ -39,7 +39,7 @@ class Provincias_modelo extends CI_Model {
         
     }
       
-        public function Listar_Provincias(){
+        public function listar_provincias(){
         
       $resultado = "select * from provincia";
 		$resultado = $this->db->query($resultado);

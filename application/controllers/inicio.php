@@ -10,9 +10,7 @@ require(__DIR__.'/mi_controlador.php');
 class inicio extends mi_controlador{
     
     function __construct() {
-        parent::__construct();
-       
-        $this->load->model('provincias_modelo');
+        parent::__construct();      
     }
     
     function index($inicio=0){

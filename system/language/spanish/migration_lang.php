@@ -1,12 +1,12 @@
 <?php
 
 $lang['migration_none_found']			= "No se encontraron migraciones.";
-$lang['migration_not_found']			= "Esta migraci髇 no puedo ser encontrada.";
-$lang['migration_multiple_version']		= "Hay varias migraciones con el mismo n鷐ero de versi髇: %d.";
-$lang['migration_class_doesnt_exist']	= "La clase de migraci髇 \"%s\" no se pudo encontrar.";
-$lang['migration_missing_up_method']	= "La clase de migraci髇 \"%s\" no tiene el m閠odo 'up'.";
-$lang['migration_missing_down_method']	= "La clase de migraci髇 \"%s\" no tiene el m閠odo 'down'.";
-$lang['migration_invalid_filename']		= "La migraci髇 \"%s\" tiene un nombre de archivo inv醠ido.";
+$lang['migration_not_found']			= "Esta migraci贸n no puedo ser encontrada.";
+$lang['migration_multiple_version']		= "Hay varias migraciones con el mismo n煤mero de versi贸n: %d.";
+$lang['migration_class_doesnt_exist']	= "La clase de migraci贸n \"%s\" no se pudo encontrar.";
+$lang['migration_missing_up_method']	= "La clase de migraci贸n \"%s\" no tiene el m茅todo 'up'.";
+$lang['migration_missing_down_method']	= "La clase de migraci贸n \"%s\" no tiene el m茅todo 'down'.";
+$lang['migration_invalid_filename']		= "La migraci贸n \"%s\" tiene un nombre de archivo inv谩lido.";
 
 
 /* End of file migration_lang.php */

@@ -3,15 +3,15 @@
 <table class="tabla_carrito">
 
     <tr>
-        <th><a href="#" onmouseover="return overlib('clickee para mas detalle del pedido');
-               " onmouseout="return nd();">Pedido</a></th>
+        <th href="#" onmouseover="return overlib('clickee para mas detalle del pedido');
+               " onmouseout="return nd();">Pedido</th>
         <th>Nombre cliente</th>
         <th>Apellidos</th>
         <th>Correo electrónico</th>       
-        <th><a href="#" onmouseover="return overlib('e para pedidos entregados, p para pedidos pendientes\n\
+        <th href="#" onmouseover="return overlib('e para pedidos entregados, p para pedidos pendientes\n\
          y c para pedidos cancelados');
-               " onmouseout="return nd();">Estado</a></th>
-        <th>Fecha</th>
+               " onmouseout="return nd();">Estado</th>
+        <th>Fecha pedido</th>
         <th>Dirección de entrega</th>
         <th>Productos</th>
         <th>Importe</th>
@@ -25,11 +25,11 @@
             <td><?= $valor['apellidos'] ?></td>
             <td><?= $valor['email'] ?></td>
             <td><?= $valor['estado'] ?></td>
-            <td><?= $valor['fecha_pedido'] ?></td>
+            <td><?= $valor['fecha_pedido']?></td>
             <td><?= $valor['direccion'] ?></td>
             <td><?= $valor['cantidad'] ?></td>
             <td><?= $valor['importe'] ?> €</td>
-            <td><?= anchor("usuario_controlador/cancelar_pedido/{$valor['id']}/{$valor['estado']}", "Cancelar pedido") ?></td>
+            <td><?= anchor("usuario_controlador/cancelar_pedido/{$valor['id']}/{$valor['estado']}", "Cancelar") ?></td>
         </tr>
     <?php endforeach; ?>
 </table>

@@ -1,15 +1,11 @@
-<?php
+<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-if (!defined('BASEPATH'))
-    exit('No direct script access allowed');
+require_once(APPPATH . '/libraries/json_webserver_controller.php');
 
-require_once(APPPATH . '/libraries/JSON_WebServer_Controller.php');
-
-class Agregador extends JSON_WebServer_Controller {
+class agregador extends json_webserver_controller {
 
     public function __construct() {
-        parent::__construct();
-        
+        parent::__construct();        
         $this->RegisterFunction('Total()', 'Devuelve el número de elementos que tenemos en la tienda');
         $this->RegisterFunction('Lista(offset, limit)', 'Devuelve una lista de productos de tamaño máximo [limit] comenzando desde la posición desde [offset]');
     }
@@ -24,7 +20,7 @@ class Agregador extends JSON_WebServer_Controller {
         foreach ($destacados as $clave => $valor) {
             $lista[] = [
                 'nombre' => $valor["nombre"],
-                'descripcion' => $valor["descripcion"],
+                'descripcion' =>$valor["descripcion"],
                 'precio' => $valor["precioVenta"],
                 'img' => base_url().$valor['imagen'],
                 'url' => site_url('/productos/muestra_producto/' .$valor['id'])
