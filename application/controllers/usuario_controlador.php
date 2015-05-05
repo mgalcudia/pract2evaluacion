@@ -335,7 +335,7 @@ class usuario_controlador extends mi_controlador {
            
            array_push($pedidos, $pedido);
         }
-       //print_r($pedidos);
+       
         if($pedidos){
             
                 $data['pedidos']= $pedidos;
